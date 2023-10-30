@@ -1,0 +1,174 @@
+export const UserData=[{
+    id:0,
+    name:"muneesh",
+    password:"1",
+    email:"muneesh@gmail.com",
+    type:"admin"
+
+},
+{
+    id:1,
+    name:"saleek",
+    password:"saleek123",
+    email:"saleek@gmail.com",
+    order:[{
+        Oid:1,
+        Opname:"Brinley Beige Cotton Shade Floor Lamp With Beige Solid Wood Base",
+        Oqty:1,
+        Opprice:3800 , 
+    },
+    {
+        Oid:2,
+        Opname:"apple",
+        Oqty:1,
+        Opprice:6000  
+    }],
+    type:"user"
+}
+,
+{
+    id:2,
+    name:"murthasa",
+    password:"murthasa123",
+    email:"murthasa@gmail.com",
+    order:[],
+    type:"user"
+}
+,
+{
+    id:3,
+    name:"ashique ali",
+    password:"ashiqueali123",
+    email:"ashiqueali@gmail.com",
+    order:[{
+        Oid:3,
+        Opname:"orange",
+        Oqty:1,
+        Opprice:5100  
+    }],
+    type:"user"
+}
+,
+{
+    id:4,
+    name:"rasiya",
+    password:"rasiya123",
+    email:"rasiya@gmail.com",
+    order:[{
+        Oid:4,
+        Opname:"orange",
+        Oqty:1,
+        Opprice:5100  
+    }],
+    type:"user"
+}
+,
+{
+    id:5,
+    name:"febin",
+    password:"febin123",
+    email:"febin@gmail.com",
+    order:[{
+        Oid:5,
+        Opname:"orange",
+        Oqty:1,
+        Opprice:5100  
+    }],
+    type:"user"
+},
+{
+    id:6,
+    name:"abid",
+    password:"abid123",
+    email:"abid@gmail.com",
+    order:[{
+        Oid:6,
+        Opname:"orange",
+        Oqty:1,
+        Opprice:5100  
+    }],
+    type:"user"
+}
+,
+{
+    id:7,
+    name:"salman faris",
+    password:"salman123",
+    email:"salman@gmail.com",
+    order:[{
+        Oid:7,
+        Opname:"orange",
+        Oqty:1,
+        Opprice:5100  
+    }],
+    type:"user"
+}
+,
+{
+    id:8,
+    name:"ameen",
+    password:"ameen123",
+    email:"ameen@gmail.com",
+    order:[{
+        Oid:8,
+        Opname:"orange",
+        Oqty:1,
+        Opprice:5100  
+    }],
+    type:"user"
+}
+,
+{
+    id:9,
+    name:"prajeesh",
+    password:"prajeesh123",
+    email:"prajeesh@gmail.com",
+    order:[{
+        Oid:9,
+        Opname:"orange",
+        Oqty:1,
+        Opprice:5100  
+    }],
+    type:"user",
+
+}
+,
+{
+    id:10,
+    name:"binshad",
+    password:"binshad123",
+    email:"binshad@email.com",
+    order:[{
+        Oid:10,
+        Opname:"orange",
+        Oqty:1,
+        Opprice:5100  
+    }],
+    type:"user"
+}
+,
+{
+    id:10,
+    name:"ajmal favas",
+    password:"ajmal123",
+    email:"ajmalfavas@gmail.com",
+    order:[],
+    type:"user"
+},
+{
+    id:11,
+    name:"jassim",
+    password:"jassim123",
+    email:"jassim@gmail.com",
+    order:[],
+    type:"user"
+},
+{
+    id:12,
+    name:"shameel",
+    password:"shameel123",
+    email:"shameel@gmail.com",
+    order:[],
+    type:"user"
+}
+]

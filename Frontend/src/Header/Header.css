@@ -1,0 +1,551 @@
+/* Offer.js start  here */
+.secondheader-main {
+  position: sticky;
+  top: 0%;
+  left: 0%;
+  width: 100%;
+  background: white;
+  z-index: 5;
+}
+
+.offer-head {
+  width: 100%;
+  background-color: #ffd166;
+  text-align: center;
+  font-family: "Playfair Display", serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.offer-head span {
+  padding: 3px 5px;
+}
+
+.offer-head a {
+  color: #e85348;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.offer-head .close {
+  font-size: 1.8em;
+  font-weight: bold;
+  cursor: pointer;
+}
+/* Offer.js end  here */
+
+/*SecondHeader.js start here */
+
+.sechead-main {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-content: center;
+  width: 100%;
+  min-height: 20px;
+}
+.sec-search {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  min-width: 50px;
+  border-radius: 2rem;
+  margin-left: 10px;
+}
+
+.sec-search input {
+  outline: none;
+  border: none;
+  border-bottom: 1px solid black;
+  padding: 5px 1px;
+  margin-left: 10px;
+  font-size: 0.7rem;
+}
+
+.sec-search span {
+  font-size: 2rem;
+  font-weight: lighter;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 70px;
+}
+
+/* background: linear-gradient(
+  135deg,
+  rgb(252, 207, 49) 10%,
+    rgb(245, 85, 85) 100%
+    );
+    -webkit-background-clip: text; */
+
+.brand h1 {
+  color: tomato;
+  padding: 0px 5px;
+}
+.brand-right {
+  display: flex;
+  flex-direction: row;
+}
+.brand-right .brand-text {
+  line-height: 15px;
+  margin-top: 11px;
+  font-size: 12px;
+  text-align: right;
+  margin-right: 5px;
+}
+.brand-right .icon span {
+  margin-right: 25px;
+  margin-top: 10px;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+/*search button start here */
+
+.search-container {
+  position: absolute;
+  top: 36%;
+  left: 1.5%;
+  width: 280px;
+  list-style: none;
+  font-size: 0.8rem;
+  letter-spacing: none;
+  z-index: 12;
+  background: white;
+  padding: 0px;
+  margin-bottom: 0px;
+}
+.search-container li {
+  cursor: pointer;
+}
+
+/* search button end here*/
+
+.profile {
+  position: relative;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.profile:hover .profile-container {
+  display: block;
+}
+
+.profile-container {
+  display: none;
+  position: absolute;
+  top: 90%;
+  right: -70px;
+  width: 140px;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+  transition-delay: 3s;
+}
+
+.profile-list {
+  list-style: none;
+  padding: 5px;
+  margin: 0px;
+  background: white;
+  transition-delay: 5s;
+}
+
+.profile-list li {
+  margin: 5px 0px;
+  padding: 7px 5px !important;
+  font-size: 0.8rem;
+  font-family: sans-serif;
+  font-weight: 600;
+  text-align: center;
+}
+
+.profile-list hr {
+  margin: 0px !important;
+}
+
+.sell {
+  max-width: 100%;
+  text-align: center;
+}
+
+.sell ul {
+  list-style: none;
+  color: grey;
+  padding-left: 0px;
+  padding-bottom: 0px;
+}
+.sell ul li {
+  display: inline-block;
+  margin: 0px 15px;
+  font-size: 0.7rem;
+  font-weight: lighter;
+  cursor: pointer;
+  transition: 0.2s all ease;
+}
+.sell ul li:hover {
+  color: rgb(228, 122, 15);
+}
+
+/*Third- head start here*/
+
+nav {
+  background: grey;
+  width: 100%;
+  position: relative;
+  text-align: center;
+}
+.navbar-close {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  color: white;
+  display: none;
+}
+
+nav ul li {
+  display: inline-block;
+  margin: 0 5px;
+  color: white;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  border-radius: 5px;
+  padding: 5px 8px;
+}
+
+.checkbtn {
+  display: none;
+  float: right;
+}
+
+#check {
+  display: none;
+}
+
+@media all and (max-width: 952px) {
+  nav ul li {
+    font-size: 14px;
+  }
+}
+
+@media all and (max-width: 663px) {
+  .checkbtn,
+  .navbar-close {
+    display: block;
+  }
+  nav {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    background: #2c3e50;
+    left: -100%;
+    transition: all 0.5s;
+    text-align: center;
+    z-index: 1;
+  }
+  nav ul li {
+    display: block;
+    margin: 20px 0px;
+    font-size: 15px;
+  }
+  .show {
+    left: 0px;
+    top: 0px;
+  }
+}
+
+@media (max-width: 450px) {
+  .checkbtn,
+  .navbar-close {
+    display: block;
+  }
+  nav {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    background: #2c3e50;
+    top: 0px;
+    left: -100%;
+    transition: all 0.5s;
+    text-align: left;
+  }
+  nav ul {
+    padding-top: 50px;
+  }
+  nav ul li {
+    display: block;
+    margin: 15px 0px;
+    font-size: 14px;
+  }
+  .show {
+    left: 0px;
+    top: 0px;
+  }
+}
+
+/*media query start here*/
+
+/*offer navbar start here */
+
+@media all and (max-width: 560px) {
+  .offer-head {
+    font-size: 0.7rem;
+  }
+}
+@media all and (max-width: 465px) {
+  .offer-head {
+    font-size: 0.6rem;
+  }
+}
+
+@media all and (max-width: 400px) {
+  .offer-head {
+    font-size: 0.5rem;
+  }
+}
+
+@media all and (max-width: 365px) {
+  .offer-head {
+    font-size: 0.4rem;
+  }
+}
+@media all and (max-width: 298px) {
+  .offer-head {
+    font-size: 0.3rem;
+  }
+}
+/*offer navbar start here */
+
+/* secondHeader start here */
+@media all and (max-width: 1150px) {
+  .sell ul li {
+    margin: 0px 8px;
+    font-size: 0.7rem;
+  }
+}
+
+@media all and (max-width: 900px) {
+  .sec-search input {
+    width: 150px;
+    padding: 3px 1px;
+    font-size: 0.6rem;
+  }
+  .sec-search span {
+    font-size: 1.8rem;
+    font-weight: lighter;
+  }
+
+  .brand h1 {
+    font-size: 1.5rem;
+  }
+
+  .brand-right .brand-text {
+    line-height: 13px;
+    font-size: 9px;
+    margin-top: 10px;
+    margin-right: 3px;
+  }
+  .brand-right .icon span {
+    margin-right: 20px;
+    margin-top: 10px;
+  }
+  .sell ul li {
+    margin: 0px 6px;
+    font-size: 0.5rem;
+  }
+}
+
+@media all and (max-width: 750px) {
+  .sec-search input {
+    width: 130px;
+    padding: 1px 0px;
+  }
+  .sec-search span {
+    font-size: 1.8rem;
+    font-weight: lighter;
+  }
+
+  .brand-right .brand-text {
+    line-height: 13px;
+    font-size: 8.5px;
+    margin-right: 3px;
+  }
+
+  .brand-right .icon span {
+    margin-right: 14px;
+    margin-top: 10px;
+  }
+
+  .profile-container {
+    right: -60px;
+    width: 130px;
+    padding: 9px;
+  }
+  .profile-list {
+    padding: 0px;
+  }
+
+  .profile-list li {
+    margin: 4px 0px;
+    padding: 1px auto;
+    font-size: 0.5rem;
+    background: white;
+  }
+}
+
+@media all and (max-width: 690px) {
+  .sec-search input {
+    width: 80px;
+    padding: 1px 1px;
+    font-size: 0.5rem;
+  }
+  .sec-search span {
+    font-size: 1.5rem;
+    font-weight: lighter;
+  }
+
+  .brand h1 {
+    font-size: 1.2rem;
+    margin-top: 5px;
+  }
+
+  .brand-right .brand-text {
+    line-height: 10px;
+    font-size: 6px;
+    margin-right: 3px;
+  }
+  .brand-right .icon span {
+    margin-right: 9px;
+    margin-top: 9px;
+    font-size: 1.1rem;
+  }
+  .sell ul {
+    margin-top: -9.3px;
+  }
+  .sell ul li {
+    margin: 0px 5px;
+    font-size: 0.4rem;
+  }
+
+  .profile-container {
+    right: -40px;
+    width: 100px;
+    padding: 7px;
+  }
+
+  .profile-list li {
+    margin: 2px 0px;
+    font-size: 0.3rem;
+  }
+}
+
+@media all and (max-width: 610px) {
+  .sec-search input {
+    width: 70px;
+    font-size: 0.5rem;
+  }
+  .sec-search span {
+    font-size: 1.3rem;
+    font-weight: lighter;
+  }
+
+  .brand h1 {
+    font-size: 1.1rem;
+  }
+
+  .brand-right .brand-text {
+    line-height: 9px;
+    font-size: 6px;
+    margin-right: 3px;
+  }
+  .brand-right .icon span {
+    margin-right: 10px;
+    margin-top: 9px;
+    font-size: 1.1rem;
+  }
+}
+
+@media all and (max-width: 510px) {
+  .sec-search input {
+    width: 55px;
+    font-size: 0.4rem;
+  }
+  .sec-search span {
+    font-size: 0.9rem;
+    font-weight: lighter;
+  }
+  .brand {
+    margin-left: 20px;
+  }
+  .brand h1 {
+    font-size: 0.9rem;
+  }
+
+  .brand-right .brand-text {
+    line-height: 6px;
+    font-size: 5px;
+    margin-right: 3px;
+  }
+  .brand-right .icon span {
+    margin-right: 6px;
+    font-size: 0.9rem;
+  }
+  .sell ul {
+    margin-top: -7.9px;
+  }
+  .sell ul li {
+    margin: 0px 3px;
+    font-size: 0.3rem;
+  }
+  .profile-container {
+    right: -30px;
+    width: 80px;
+    padding: 5px;
+  }
+
+  .profile-list li {
+    margin: 0px 0px;
+    font-size: 0.3rem;
+  }
+}
+
+@media all and (max-width: 400px) {
+  .sec-search input {
+    width: 55px;
+    font-size: 0.4rem;
+  }
+  .brand-right .brand-text {
+    line-height: 5.5px;
+    font-size: 4px;
+    margin-right: 3px;
+  }
+  .brand-right .icon span {
+    margin-right: 6px;
+    font-size: 0.8rem;
+  }
+  .sell ul li {
+    margin: 0px 2px;
+    font-size: 0.3rem;
+  }
+  .profile-container {
+    right: -25px;
+    width: 60px;
+    padding: 5px;
+  }
+
+  .profile-list li {
+    margin: 0px 0px;
+    font-size: 0.3rem;
+  }
+}
+
+/*media query End Here*/

@@ -1,0 +1,181 @@
+/*design using grid start*/
+.a-home {
+  width: 100%;
+  background: lightgoldenrodyellow;
+  display: grid;
+  min-height: 100vh;
+  grid-template-columns: 0.4fr 1fr 1fr;
+  grid-template-rows: 80px;
+  /*CODE FOR NAV,ASIDE TO FIX*/
+  position: relative;
+  overflow-y: auto;
+}
+
+/*admin head design start*/
+.a-nav {
+  grid-area: 1/2/1/4;
+  background-color: #61677a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  z-index: 1;
+}
+.a-nav h2 {
+  font-family: "Courier New", Courier, monospace;
+  margin: 0px;
+  color: white;
+}
+
+/*admin head design end*/
+
+/*dash design start here*/
+.a-dash {
+  grid-area: 1/1/4/1;
+  background: #313131;
+  color: white;
+  height: 100%;
+}
+.a-dash h3 {
+  padding-left: 10px;
+  padding-top: 30px;
+}
+.a-dash ul {
+  list-style: none;
+  padding: 0px;
+  margin: 0px;
+  margin-left: 20px;
+}
+.a-dash ul li {
+  margin: 20px 0px;
+  width: 87px;
+
+  padding: 0px;
+  display: flex;
+  flex-direction: row;
+}
+
+.a-dash ul li select {
+  background: #313131;
+  color: white;
+  outline: none;
+  padding: 5px 0px;
+  width: 80px;
+  border: none;
+  border-radius: 5px;
+}
+/*dash design end here*/
+
+.a-body {
+  grid-area: 2/2/4/4;
+  background: white;
+  overflow: scroll;
+  height: 100vh; /* remove if responsive needed */
+}
+/*design using grid end*/
+@media all and (max-width: 830px) {
+  .a-body tbody th,
+  td {
+    padding: 0px !important;
+    width: 10px !important;
+  }
+}
+@media all and (max-width: 700px) {
+  .a-body tbody th,
+  td {
+    padding: 0px !important;
+    width: 50px;
+  }
+}
+
+@media all and (max-width: 490px) {
+  .a-home {
+    grid-template-columns: 1fr;
+    grid-template-rows: 0.1fr;
+    min-height: 125vh;
+  }
+}
+@media all and (max-width: 365px) {
+  .a-home {
+    grid-template-columns: 1fr;
+    grid-template-rows: 0.1fr;
+    min-height: 150vh;
+  }
+}
+@media all and (max-width: 305px) {
+  .a-home {
+    min-height: 160vh;
+  }
+}
+@media all and (max-width: 290px) {
+  .a-home {
+    min-height: 170vh;
+  }
+}
+@media all and (max-width: 260px) {
+  .a-home {
+    min-height: 220vh;
+  }
+}
+
+/*AdminBody.js start here*/
+
+.content-box {
+  background-color: #fff;
+  padding: 25px 40px 20px 40px;
+  width: 280px;
+  border-radius: 20px;
+  box-shadow: 0 2px 4px rgb(195, 195, 195, 1);
+}
+
+.content-box h2 {
+  margin-bottom: 15px;
+}
+
+.content-box p {
+  margin: 0;
+}
+@media all and (max-width: 600px) {
+  .content-box {
+    background-color: #fff;
+    padding: 25px 35px 15px 35px !important;
+    width: 200px !important;
+    border-radius: 15px !important;
+    box-shadow: 0 2px 4px rgba(195, 195, 195, 1);
+  }
+}
+
+/*AdminBody.js start here*/
+
+/*producaddpage.js start here*/
+.pap {
+  width: 90%;
+  background: whitesmoke;
+  margin: 0 auto;
+}
+.input-container {
+  position: relative;
+  margin: 20px auto;
+}
+
+.input-container input {
+  width: 300px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.input-container label {
+  position: absolute;
+  top: 5px;
+  left: 10px;
+  transition: transform 0.2s, font-size 0.2s;
+  pointer-events: none;
+  color: #333;
+}
+
+.input-container input:focus + label {
+  transform: translateY(-20px);
+  font-size: 12px;
+}
+/*producaddpage.js end here*/

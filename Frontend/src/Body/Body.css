@@ -1,0 +1,172 @@
+/* Body main*/
+.body-main {
+  width: 90%;
+  min-height:100vh;
+  margin:0px auto;
+  /* background:blanchedalmond; */
+  padding-bottom:10rem;
+
+}
+/*<Crousel/> Start here*/
+
+.carousel-text {
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  letter-spacing: 0.1rem;
+  margin-bottom: 0px;
+}
+
+/*<Crousel/> End here*/
+
+/*<Intromsg> start here */
+
+.img-p1 {
+  text-align: center;
+}
+
+.img-p1 img {
+  max-width: 90%;
+  margin: 0.3rem 0px;
+}
+.imgp1c1 {
+  text-align: center;
+}
+.imgp1-c1 img {
+  max-width: 29.1%;
+  height: auto;
+  height: auto;
+  margin: 0.5rem 0.5rem;
+}
+.imgp1c1-signup {
+  text-align: center;
+  margin-bottom: 0.9%;
+}
+.imgp1c1-signup img {
+  max-width: 90%;
+  height: auto;
+}
+.img-p2 {
+  max-width: 100%;
+  text-align: center;
+}
+.img-p2 a {
+  text-decoration: none;
+  text-align: center;
+}
+.img-p2 img {
+  max-width: 33%; 
+  height: auto;
+  margin: 0.2rem 0rem;
+}
+.img-p3 {
+  max-width: 100%;
+  text-align: center;
+}
+
+.img-p3 img {
+  max-width: 90%;
+  max-height: auto;
+  margin: 0.3rem 0rem;
+}
+.img-p4 {
+  max-width: 100%;
+  text-align: center;
+}
+.img-p4 img{
+  max-width:28%;
+  height:auto;
+  margin:.3rem 0px;
+
+}
+
+/*<Intromsg> end here*/
+
+
+/*<Items/> js start here*/
+/* 
+.custom-card-body {
+  padding: 20px; 
+} */
+
+
+.custom-image {
+  height: auto;
+  object-fit: cover;
+  object-position: center;
+  max-height: 280px;
+}
+.card-title {
+  font-size: 0.9rem;
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  color: #5b5b5b;
+  text-align: justify;
+  font-family: "Manrope", sans-serif;
+}
+.card-category {
+  font-size: 0.88rem;
+  font-weight: bold;
+  letter-spacing: 0.1rem;
+}
+.card-price {
+  font-size: 1.1rem;
+}
+
+/* Define image size for different screen sizes using media queries */
+
+@media (max-width: 576px) {
+  .image-container {
+    max-width: 100%; /* Adjust this value to your preference */
+  }
+
+  .card-size {
+    width: 80% !important;
+  }
+
+  .card-price {
+    font-size: 0.9rem;
+    letter-spacing: 0.1px;
+  }
+}
+
+@media all and (max-width: 800px) {
+  .body-main {
+    width: 95%;
+  }
+}
+
+@media all and (max-width: 650px) {
+  .carousel-text {
+    font-size: 3px;
+    letter-spacing: 0.5px;
+  }
+
+  .img-p1 img {
+    margin: 0.2rem 0rem;
+  }
+  .img-p3 img {
+    margin: 0.2rem 0rem;
+  }
+  .imgp1-c1 img {
+    margin: 0.5rem 0.3rem;
+  }
+}
+@media all and (max-width: 400px) {
+  .img-p1 img {
+    max-width: 100%;
+    margin: 0.1rem 0rem;
+  }
+  .img-p3 img {
+    max-width: 100%;
+    margin: 0.1rem 0rem;
+  }
+  .imgp1-c1 img {
+    margin: 0.4rem 0.4rem;
+  }
+  .imgp1c1-signup img {
+    max-width: 100%;
+    height: auto;
+  }
+}
