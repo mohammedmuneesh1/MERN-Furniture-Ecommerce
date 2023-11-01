@@ -9,13 +9,35 @@ import {
 } from "mdb-react-ui-kit";
 
 import { MyData } from "../Main-Component/MyData";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import axiosInstance from "../Admin/Axios/axiosInstance";
 const Items = () => {
   const navigate = useNavigate();
   const { item } = useContext(MyData);
   const disP = item.slice(0, 8); // to display the first 8 products only
+  const [products,setProducts] =useState();
+
+const displayProducts = async () => {
+  try {
+    const response = await axiosInstance.get('/api/admin/products');
+   
+    if (response.status === 200) {
+      setProducts(response.data.data);
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+useEffect(() => {
+  displayProducts();
+}, []);
+
+
+
+
+
+
 
   const handlePrice = (price) => {
     const formattedPrice = Number(price).toLocaleString("en-IN"); // 'en-IN' for the Indian numbering system (e.g., 1,23,456.00)
@@ -31,26 +53,26 @@ const Items = () => {
 
         <MDBContainer fluid className="my-5">
           <MDBRow className="best-seller d-flex flex-wrap justify-content-center mx-5">
-            {disP.map((value, index) => (
+          {products && products.map((value, index) => (
               <MDBCol
                 xl="3"
                 lg="4"
                 md="4"
                 sm="6"
                 className="mb-3 best-seller-image"
-                key={value.id}
-                onClick={() => navigate(`/Product/${value.id}`)} // Fix the onClick here
+                key={value._id}
+                onClick={() => navigate(`/Product/${value._id}`)} // Fix the onClick here
               >
                 <MDBCard className="text-black">
                   <MDBCardImage
-                    src={value.src}
+                    src={value.image}
                     position="top"
                     alt="product-image"
                   />
                   <MDBCardBody>
                     <div className=" text-center">
                       <MDBCardTitle className="best-seller-name fw-bold">
-                        {value.name}
+                        {value.title}
                       </MDBCardTitle>
                     </div>
                     <h3 className=" text-muted card-category" style={{ textAlign: 'center' }}>

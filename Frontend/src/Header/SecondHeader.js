@@ -140,12 +140,11 @@ const SecondHeader = () => {
     const payload = { email, password };
 
     const payUrl =( email === emailEnv ?  "http://localhost:8000/api/admin/login" : "http://localhost:8000/api/users/login" )
-console.log(payUrl)
 
 
     try{
       const response = await axios.post(payUrl,payload);
-      console.log(response)
+  
       
       if(response.status === 200){
         const jwt = response.data.jwt;

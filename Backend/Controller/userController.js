@@ -138,6 +138,7 @@ module.exports = {
     // res.status(201).json({status:'Success',message:'Successfully added product to cart',cart:userWithCart.cart})
   },
 
+  
   showCart: async (req, res) => {
     const userId = req.params.id;
     const user = await userDB.findOne({ _id: userId }).populate("cart");
@@ -246,8 +247,8 @@ module.exports = {
       payment_method_types: ["card"], //, 'apple_pay', 'google_pay', 'alipay',card
       line_items: lineItems,
       mode: "payment",
-      success_url: `http://localhost:3000/api/users/payment/success`, // Replace with your success URL
-      cancel_url: "http://localhost:3000/api/users/payment/cancel", // Replace with your cancel URL
+      success_url: `http://localhost:8000/api/users/payment/success`, // Replace with your success URL
+      cancel_url: "http://localhost:8000/api/users/payment/cancel", // Replace with your cancel URL
     });
 
     if (!session) {

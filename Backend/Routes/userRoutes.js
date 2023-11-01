@@ -10,8 +10,8 @@ router
 .post('/register',tryCatch(userController.userRegister))
 .post('/login',tryCatch(userController.login))
 
+.get('/payment/success',userController.success)
 .use(verifyToken)
-.get('',verifyToken,)
 .get('/products',tryCatch(userController.products))
 .get('/products/:id',tryCatch(userController.productById))
 .get('/products/category/:categoryname',tryCatch(userController.productByCategory))
@@ -22,7 +22,6 @@ router
 .delete('/:id/cart',tryCatch(userController.deleteCart))
 .delete('/:id/wishlist',tryCatch(userController.deleteWishlist))
 .post('/:id/payment',userController.payment)
-.get('/payment/success',userController.success)
 .post('/payment/cancel',userController.cancel)
 .get('/:id/orders',tryCatch(userController.showOrders))
 

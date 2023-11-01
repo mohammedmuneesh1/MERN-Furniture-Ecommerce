@@ -85,9 +85,8 @@ module.exports = {
 
 
   deleteProduct: async (req, res) => {
-    const { id } = req.body;
+    const id = req.params.id;
     const productDeleted = await productDB.findByIdAndRemove(id);
-    console.log(productDeleted);
     if (!productDeleted) {
       return res
         .status(404)
@@ -97,6 +96,9 @@ module.exports = {
       .status(200)
       .json({ status: "success", message: "successfully deleted a product" });
   },
+
+  
+  
 
   allProduct: async (req, res) => {
     const products = await productDB.find();
@@ -111,6 +113,9 @@ module.exports = {
       data: products,
     });
   },
+
+
+
   productByCategory: async (req, res) => {
     const type = req.query.type;
     const data = await productDB.find({ category: type });
@@ -214,10 +219,6 @@ module.exports = {
     // }
     // res.json({status:"Success",message:"working",totalProductsPurchased:totalProducts,revenue})
 
-    res.json({ data });
+    res.status(200).json({ data });
   },
-  trail:async(req,res)=>{
-    const imagePath = req.file.path;  // Store the file path example :  "uploads\\1698479563658.png"
-    res.json({message:"working",imagePath})
-  }
 };

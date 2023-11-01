@@ -23,6 +23,7 @@ import Cart from "./Body/Cart";
 import AdminHome from "./Admin/AdminHome";
 import Auser from "./Admin/Auser";
 import AallProduct from "./Admin/AallProduct";
+import AdminRevenue from "./Admin/adminRevenue";
 
 // P-TYPE importing 
 import Asofa from "./Admin/P-TYPE/Asofa";
@@ -91,6 +92,7 @@ function App() {
   <Route path="/Admin" element={<AdminHome />}>
       <Route path="/Admin/Auser" element={<Auser/>} />
       <Route path="/Admin/Products" element={<AallProduct/>} />
+      <Route path="/Admin/Revenue"element={<AdminRevenue/>} />
       <Route path="/Admin/Products/Sofa" element={<Asofa/>} />
       <Route path="/Admin/Products/Bowl" element={<ABowls/>} />
       <Route path="/Admin/Products/Plant" element={<Aplants/>} />

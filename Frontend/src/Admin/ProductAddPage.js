@@ -88,7 +88,7 @@ const addproduct= async(e)=>{
             formData.append("description", description);
             formData.append("category", category);
 
-          const response = await axiosInstance.post('http://localhost:8000/api/admin/products',formData)
+          const response = await axiosInstance.post('/api/admin/products',formData)
           
           if(response.status === 201){
             alert("product added successfully")

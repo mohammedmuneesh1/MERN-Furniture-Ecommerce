@@ -13,27 +13,55 @@ export default function AallProduct() {
   const navigate=useNavigate();
   const [products,setProducts]=useState([])
 
-  
-useEffect(()=>{
   const fetchData =async ()=>{
-    
-  try{
-    const response = await axiosInstance.get('/api/admin/products')
-    // const response = await axios.get('http://localhost:8000/api/admin/products')
-    if(response.status === 200){
-     console.log("success")
-      setProducts(response.data.data)
+    // const token = localStorage.getItem('jwtToken');
+    try{
+      const response = await axiosInstance.get('/api/admin/products')
+      // console.log(response)
+      // const response = await axios.get('http://localhost:8000/api/admin/products')
+      if(response.status === 200){
+      //  console.log("success")
+        setProducts(response.data.data)
+        return;
+      }
     }
-  }
+  
+    catch(error){
+      console.log(error.message)
+  
+    }
 
-  catch(error){
-    console.log(error.message)
 
-  }
+  
+    }
 
-  }
+useEffect(()=>{
   fetchData()
 },[])  
+
+
+
+const deleteProduct = async(id)=>{
+  const confirmDeletion = window.confirm( "Are you sure you want to delete the product?" );
+ if(confirmDeletion){
+  try{
+   const response = await axiosInstance.delete(`/api/admin/products/${id}`)
+  if(response.status === 200)
+  {
+    alert("Product deleted successfully.")
+    fetchData()
+
+     return;
+  }
+  }
+catch(error){
+  console.log("error occured :" + error.message)
+}
+return;
+}
+
+
+}
   
 
 
@@ -56,7 +84,7 @@ useEffect(()=>{
         </MDBTableHead>
         <MDBTableBody>
           {products.map((value, index) => (
-            <tr key={index}>
+            <tr key={value._id}>
               <th scope="row">{value.id}</th>
               <td>
                 <img
@@ -69,10 +97,10 @@ useEffect(()=>{
               <td>{value.title}</td>
               <td>{value.price}</td>
               <td className="pe-0">
-                <MDBBtn onClick={()=>navigate(`/Admin/ProductEdit/${value.id}`)}>EDIT</MDBBtn>
+                <MDBBtn onClick={()=>navigate(`/Admin/ProductEdit/${value._id}`)}>EDIT</MDBBtn>
               </td>
               <td className="ps-0">
-                <MDBBtn  color="danger" onClick={()=>removeItem(index)}>
+                <MDBBtn  color="danger" onClick={()=>deleteProduct(value._id)}>
                   DELETE
                 </MDBBtn>
               </td>

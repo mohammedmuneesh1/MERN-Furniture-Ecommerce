@@ -43,7 +43,7 @@ export default function AdminAside() {
               Users
             </label>
           </li>
-          <li>
+          <li onClick={(e)=>{navigate("/Admin/Revenue")}}>
             <span className="material-symbols-outlined">attach_money</span>
             <label> Revenue</label>
           </li>
