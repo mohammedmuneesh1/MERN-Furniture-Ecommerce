@@ -53,7 +53,7 @@ useEffect(() => {
 
         <MDBContainer fluid className="my-5">
           <MDBRow className="best-seller d-flex flex-wrap justify-content-center mx-5">
-          {products && products.map((value, index) => (
+          {products && products.slice(0,8).map((value, index) => (
               <MDBCol
                 xl="3"
                 lg="4"

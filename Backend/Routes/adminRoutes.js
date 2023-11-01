@@ -10,13 +10,15 @@ const imgUpload = require('../Middleware/Image Upload/imageUpload')
 router
 .post('/login',tryCatch(controller.login))
 .get('/products',tryCatch(controller.allProduct))
-.use(verifyToken)
+.get('/products/category',tryCatch(controller.productByCategory))
+
+
+// .use(verifyToken)
 .get('/users',tryCatch(controller.viewUsers))
 .post('/products',imgUpload,tryCatch(controller.createProduct))
 .get('/users/:id',tryCatch(controller.userById))
 .delete('/products/:id',tryCatch(controller.deleteProduct))
 .get('/products/:id',tryCatch(controller.productById))
-.get('/products/category',tryCatch(controller.productByCategory))
 .put('/products',tryCatch(controller.updateProduct))
 .get('/orders',tryCatch(controller.orderDetails))
 .get('/stats',tryCatch(controller.analysis))

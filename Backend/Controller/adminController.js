@@ -117,16 +117,16 @@ module.exports = {
 
 
   productByCategory: async (req, res) => {
+    console.log("its working");
     const type = req.query.type;
     const data = await productDB.find({ category: type });
-    console.log(data);
     if (data.length == 0) {
-      res.status(404).json({
+      return res.status(404).json({
         status: "failure",
         message: "Given Category not found on database.",
       });
     }
-    res.json({
+    res.status(200).json({
       status: "Successfully fetched product details",
       message: "got value",
       data,

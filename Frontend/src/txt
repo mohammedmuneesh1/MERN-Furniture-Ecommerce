@@ -1,2 +1,92 @@
+import {
+  MDBContainer,
+  MDBRow,
+  MDBCol,
+  MDBCard,
+  MDBCardBody,
+  MDBCardImage,
+  MDBCardTitle,
+} from "mdb-react-ui-kit";
 
-Herman Miller
+import { MyData } from "../Main-Component/MyData";
+import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axiosInstance from "../Admin/Axios/axiosInstance";
+
+const Items = () => {
+  const navigate = useNavigate();
+  const { item } = useContext(MyData);
+  const [products, setProducts] = useState([]);
+  const [displayedProducts, setDisplayedProducts] = useState([]);
+
+  const displayProducts = async () => {
+    try {
+      const response = await axiosInstance.get('/api/admin/products');
+
+      if (response.status === 200) {
+        setProducts(response.data.data);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  useEffect(() => {
+    displayProducts();
+  }, []);
+
+  useEffect(() => {
+    if (products.length > 0) {
+      const randomProducts = getRandomSelection(products, 8);
+      setDisplayedProducts(randomProducts);
+    }
+  }, [products]);
+
+  const handlePrice = (price) => {
+    const formattedPrice = Number(price).toLocaleString("en-IN");
+    return "₹" + formattedPrice;
+  };
+
+  return (
+    <section className="products d-flex flex-column align-items-center">
+      <h1 className="mt-5 text-black fw-bolder">
+        <strong>Bestsellers</strong>
+      </h1>
+
+      <MDBContainer fluid className="my-5">
+        <MDBRow className="best-seller d-flex flex-wrap justify-content-center mx-5">
+          {displayedProducts.map((value, index) => (
+            <MDBCol
+              xl="3"
+              lg="4"
+              md="4"
+              sm="6"
+              className="mb-3 best-seller-image"
+              key={value._id}
+              onClick={() => navigate(`/Product/${value._id}`)}
+            >
+              <MDBCard className="text-black">
+                <MDBCardImage src={value.image} position="top" alt="product-image" />
+                <MDBCardBody>
+                  <div className=" text-center">
+                    <MDBCardTitle className="best-seller-name fw-bold">
+                      {value.title}
+                    </MDBCardTitle>
+                  </div>
+                  <h3 className=" text-muted card-category" style={{ textAlign: 'center' }}>
+                    {value.category}
+                  </h3>
+                  <p className="text-center fw-bolder fs-5" style={{ color: "#ed2335" }}>
+                    {handlePrice(value.price)}
+                  </p>
+                </MDBCardBody>
+              </MDBCard>
+            </MDBCol>
+          ))}
+        </MDBRow>
+      </MDBContainer>
+    </section>
+  );
+};
+
+export default Items;
