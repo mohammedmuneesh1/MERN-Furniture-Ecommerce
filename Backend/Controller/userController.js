@@ -1,4 +1,4 @@
-const dbConnection = require("../Model/databaseConnection");
+// const dbConnection = require("../Model/databaseConnection");
 const userDB = require("../Model/usersDB");
 const productDB = require("../Model/productsDB");
 const orderDB = require("../Model/OrderDB");
@@ -10,7 +10,7 @@ const {
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 const mongoose = require("mongoose");
-const usersDB = require("../Model/usersDB");
+// const usersDB = require("../Model/usersDB");
 const bcrypt = require("bcrypt");
 //global variable start
 let sValue = {};
@@ -62,13 +62,16 @@ module.exports = {
         .json({ status: "Failure", message: "Incorrect Password" });
     }
     const token = jwt.sign({ email }, process.env.USER_ACCESS_TOKEN_SECRET);
+
     res.status(200).json({
       status: "success",
       message: "User successfully logged",
       jwt: token,
+      user
     });
   },
 
+  
 
   
   products: async (req, res) => {
@@ -94,6 +97,7 @@ module.exports = {
     });
   },
 
+
   productByCategory: async (req, res) => {
     const category = req.params.categoryname;
 
@@ -106,10 +110,12 @@ module.exports = {
     });
     // res.status(200).json({status:'success',message:"category found ",result})
   },
+
   addToCart: async (req, res) => {
     const userId = req.params.id;
     const checkuser = await userDB.findById(userId);
     if (!checkuser) {
+      
       return res.status(404).json({ message: "User not found." });
     }
 

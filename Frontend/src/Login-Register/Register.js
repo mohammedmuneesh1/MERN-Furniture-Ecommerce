@@ -62,9 +62,16 @@ const userreg= async (e)=>{
 
          }
         }
-        catch(error){
+        catch (error) {
           console.log(error);
-          alert("An error occured during registration. Please try again")
+          if (error.response) {
+            // The error is coming from the server
+            console.log(error.response.data.message); // This will log "error occurred"
+            alert(error.response.data.message); // Show the error message to the user
+          } else {
+            // The error is not coming from the server (e.g., network error)
+            alert("An error occurred during registration. Please try again");
+          }
         }
 
        

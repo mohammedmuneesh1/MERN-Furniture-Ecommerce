@@ -4,27 +4,31 @@ const productDB = require("../Model/productsDB");
 const OrderDB = require("../Model/OrderDB");
 const { joiProductSchema } = require("../Model/validateJoiSchema");
 
+
 module.exports = {
   login: async (req, res) => {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
 
     if (
-      username === process.env.ADMIN_USERNAME &&
+      email === process.env.ADMIN_EMAIL &&
       password === process.env.ADMIN_PASSWORD
     ) {
       const token = jwt.sign(
-        { username },
+        { email },
         process.env.ADMIN_ACCESS_TOKEN_SECRET
       );
+      const data = {name:"muneesh"}
       res.status(200).json({
         status: "success",
         message: "successfully logged",
-        jwt_token: token,
+        jwt: token,
+        data
       });
     } else {
       return res.status(404).json({ message: "User not found" });
     }
   },
+
   viewUsers: async (req, res) => {
     const data = await userDB.find();
     if (!data) {
@@ -34,7 +38,7 @@ module.exports = {
       });
     }
 
-    res.json({
+    res.status(200).json({
       status: "success",
       message: "successfully fetched user data.",
       data,
@@ -62,10 +66,12 @@ module.exports = {
   },
 
   createProduct: async (req, res) => {
+    console.log("working")
     const { value, error } = joiProductSchema.validate(req.body);
     if (error) {
       return res.status(400).json({ message: error.details[0].message });
     }
+
 
     
     const { title, description, price, image, category } = value;
@@ -75,6 +81,8 @@ module.exports = {
       .status(201)
       .json({ status: "success", message: "successfully created a product" });
   },
+
+
 
   deleteProduct: async (req, res) => {
     const { id } = req.body;

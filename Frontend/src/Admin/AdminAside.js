@@ -1,7 +1,11 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { MyData } from "../Main-Component/MyData";
 export default function AdminAside() {
   const navigate = useNavigate();
+  const {lstatus,setLstatus}=useContext(MyData)
+
   return (
     <>
       <div className="a-dash">
@@ -104,8 +108,14 @@ export default function AdminAside() {
           </li>
           <li onClick={()=>navigate("/")}>
             <span className="material-symbols-outlined" >logout</span>
-            <label>Log Out</label>
-          </li>
+            <label onClick={()=>{ 
+               const confirmLogout = window.confirm( "Are you sure you want to log out?");
+
+                          if (confirmLogout) {
+                            setLstatus(!lstatus)
+                            localStorage.removeItem("jwtToken")
+                          }}}>Log Out</label>
+                        </li>
         </ul>
       </div>
     </>

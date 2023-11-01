@@ -1,3 +1,4 @@
+const fs = require("fs");
 const multer = require('multer')
 const storage = multer.diskStorage({
     destination:'uploads/',
@@ -29,6 +30,11 @@ const imgUpload = (req,res,next)=>{
             })
             // console.log('Cloudinary Upload Result:', result); 
             req.body.image = result.secure_url;  //HERE WE PASSING THE IMAGE URL INTO {image} = req.body
+           fs.unlink(req.file.path,(error)=>{
+            if(error){
+                console.log(error.message)
+            }
+           })
             next();
 
         }

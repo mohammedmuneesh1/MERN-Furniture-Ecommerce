@@ -1,6 +1,6 @@
 //database connection for both productDB and userDB Collection
 const mongoose = require('mongoose')
-mongoose.connect("mongodb://localhost:27017/E-commerce", {
+mongoose.connect("mongodb://localhost:27017/Mern-Furniture", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
