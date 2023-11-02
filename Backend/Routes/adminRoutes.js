@@ -13,7 +13,7 @@ router
 .get('/products/category',tryCatch(controller.productByCategory))
 
 
-// .use(verifyToken)
+.use(verifyToken)
 .get('/users',tryCatch(controller.viewUsers))
 .post('/products',imgUpload,tryCatch(controller.createProduct))
 .get('/users/:id',tryCatch(controller.userById))

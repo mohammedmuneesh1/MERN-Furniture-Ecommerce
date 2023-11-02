@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import {
     MDBContainer,
     MDBRow,
@@ -10,14 +10,38 @@ import {
   } from "mdb-react-ui-kit";
   import { MyData } from '../MyData';
 import { useNavigate } from 'react-router-dom';
+import axiosInstance from '../../Admin/Axios/axiosInstance';
 
 export default function Mattresses() {
-    useEffect(() => {
-        window.scrollTo(0, 0);
-         }, []);
+
     const navigate=useNavigate();
       const {item}=useContext(MyData);
-       const Psofa=item.filter((value)=>value.category ==="Mattress");
+       const [Mattress,setMattress] = useState([])
+
+       const cMattress = async ()=>{
+        try{
+          const  response = await axiosInstance.get('/api/admin/products/category?type=Mattress');
+          if(response.status === 200){
+               setMattress(response.data.data)
+          }
+    
+        }
+        catch(error){ 
+          console.log("error sofa category" + error.message)
+        }
+    
+      }
+      
+
+
+
+
+       useEffect(() => {
+        cMattress();
+        window.scrollTo(0, 0);
+         }, []);
+
+    
   return (
     <>
      <MDBContainer fluid className="my-5 text-center">
@@ -28,10 +52,10 @@ export default function Mattresses() {
         <MDBRow>
 
 
-  {Psofa.map((value,index) => (
+  {Mattress.map((value,index) => (
     
-    <MDBCol xl="3" lg="4" md="6" sm="6" xs="12" className="mb-4"   key={value.id}>
-    <MDBCard className=" card-size m-auto"   key={value.id}    onClick={()=>navigate(`/Product/${value.id}`)} >
+    <MDBCol xl="3" lg="4" md="6" sm="6" xs="12" className="mb-4"   key={value._id}>
+    <MDBCard className=" card-size m-auto"   key={value._id}    onClick={()=>navigate(`/Product/${value._id}`)} >
         <MDBRipple
           rippleColor="light"
           rippleTag="div"
@@ -40,7 +64,7 @@ export default function Mattresses() {
         >
           <div className="image-container">
             <MDBCardImage
-              src={value.src}
+              src={value.image}
               fluid
               className="w-100 custom-image"
               alt="Product"
@@ -65,7 +89,7 @@ export default function Mattresses() {
         <MDBCardBody className="custom-card-body p-1 p-md-3 p-lg-4">
           <span  className="text-reset">
             <h5 className="card-title mb-2 mb-md-3 mb-lg-3 h5-responsive">
-            {value.name}
+            {value.title}
             </h5>
           </span>
           <span  className="text-reset">
