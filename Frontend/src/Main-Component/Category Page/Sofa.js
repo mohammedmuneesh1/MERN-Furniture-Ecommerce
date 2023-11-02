@@ -18,6 +18,11 @@ export default function Sofa() {
 const [sofa,setSofa]= useState([])
 const navigate=useNavigate();
 
+   useEffect(() => {
+     cSofa();
+    window.scrollTo(0, 0);
+  },[]);
+
   const cSofa = async ()=>{
     try{
       const  response = await axiosInstance.get('/api/admin/products/category?type=Sofa');
@@ -32,11 +37,6 @@ const navigate=useNavigate();
 
   }
   
-
-   useEffect(() => {
-    window.scrollTo(0, 0);
-    cSofa();
-  },[]);
 
 
 

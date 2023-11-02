@@ -85,6 +85,7 @@ module.exports = {
 
 
   deleteProduct: async (req, res) => {
+    console.log("its working");
     const id = req.params.id;
     const productDeleted = await productDB.findByIdAndRemove(id);
     if (!productDeleted) {
@@ -117,7 +118,7 @@ module.exports = {
 
 
   productByCategory: async (req, res) => {
-    console.log("its working");
+
     const type = req.query.type;
     const data = await productDB.find({ category: type });
     if (data.length == 0) {
@@ -134,6 +135,7 @@ module.exports = {
   },
 
   productById: async (req, res) => {
+    
     const id = req.params.id;
     const product = await productDB.findById(id);
     if (!product) {
@@ -148,14 +150,14 @@ module.exports = {
       data: product,
     });
   },
-
+  
   updateProduct: async (req, res) => {
     const { value, error } = joiProductSchema.validate(req.body);
     if (error) {
       return res.status(401).json({ message: error.details[0].message });
     }
 
-    const { productId, title, description, price, image, category } = value;
+    const { productId, title, description, price,category } = value;
     const pIdCheck = await productDB.findById(productId); //checking product by its id if product exist
     if (!pIdCheck) {
       return res.status(404).json({

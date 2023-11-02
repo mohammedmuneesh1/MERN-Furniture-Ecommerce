@@ -1,92 +1,89 @@
-import {
-  MDBContainer,
-  MDBRow,
-  MDBCol,
-  MDBCard,
-  MDBCardBody,
-  MDBCardImage,
-  MDBCardTitle,
-} from "mdb-react-ui-kit";
-
-import { MyData } from "../Main-Component/MyData";
-import { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axiosInstance from "../Admin/Axios/axiosInstance";
-
-const Items = () => {
-  const navigate = useNavigate();
-  const { item } = useContext(MyData);
-  const [products, setProducts] = useState([]);
-  const [displayedProducts, setDisplayedProducts] = useState([]);
-
-  const displayProducts = async () => {
-    try {
-      const response = await axiosInstance.get('/api/admin/products');
-
-      if (response.status === 200) {
-        setProducts(response.data.data);
-      }
-    } catch (error) {
-      console.log(error.message);
+const fs = require("fs");
+const multer = require('multer')
+const storage = multer.diskStorage({
+    destination: 'uploads/',
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + file.originalname)
     }
-  };
+})
+const upload = multer({ storage })
 
-  useEffect(() => {
-    displayProducts();
-  }, []);
+// CLOUDINARY
+const cloudinary = require("cloudinary").v2
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_SECRET_KEY
+})
 
-  useEffect(() => {
-    if (products.length > 0) {
-      const randomProducts = getRandomSelection(products, 8);
-      setDisplayedProducts(randomProducts);
+const imgUpload = (req, res, next) => {
+
+    if (req.file) {
+        upload.single('image')(req, res, async (err) => {
+            if (err) {
+                return res.status(400).json({ message: err.message })
+            }
+            try {
+                const result = await cloudinary.uploader.upload(req.file.path, {
+                    folder: "Ecommerce-images" // folder name
+                })
+                // console.log('Cloudinary Upload Result:', result); 
+                req.body.image = result.secure_url; // HERE WE PASSING THE IMAGE URL INTO {image} = req.body
+                fs.unlink(req.file.path, (error) => {
+                    if (error) {
+                        console.log(error.message)
+                    }
+                })
+                next();
+            } catch (error) {
+                return res.status(500).json({ message: "Error uploading file to Cloudinary" })
+            }
+        })
+    } else {
+        next();
     }
-  }, [products]);
+}
 
-  const handlePrice = (price) => {
-    const formattedPrice = Number(price).toLocaleString("en-IN");
-    return "₹" + formattedPrice;
-  };
+module.exports = imgUpload;
 
-  return (
-    <section className="products d-flex flex-column align-items-center">
-      <h1 className="mt-5 text-black fw-bolder">
-        <strong>Bestsellers</strong>
-      </h1>
 
-      <MDBContainer fluid className="my-5">
-        <MDBRow className="best-seller d-flex flex-wrap justify-content-center mx-5">
-          {displayedProducts.map((value, index) => (
-            <MDBCol
-              xl="3"
-              lg="4"
-              md="4"
-              sm="6"
-              className="mb-3 best-seller-image"
-              key={value._id}
-              onClick={() => navigate(`/Product/${value._id}`)}
-            >
-              <MDBCard className="text-black">
-                <MDBCardImage src={value.image} position="top" alt="product-image" />
-                <MDBCardBody>
-                  <div className=" text-center">
-                    <MDBCardTitle className="best-seller-name fw-bold">
-                      {value.title}
-                    </MDBCardTitle>
-                  </div>
-                  <h3 className=" text-muted card-category" style={{ textAlign: 'center' }}>
-                    {value.category}
-                  </h3>
-                  <p className="text-center fw-bolder fs-5" style={{ color: "#ed2335" }}>
-                    {handlePrice(value.price)}
-                  </p>
-                </MDBCardBody>
-              </MDBCard>
-            </MDBCol>
-          ))}
-        </MDBRow>
-      </MDBContainer>
-    </section>
+
+
+
+
+
+//orginal code 
+
+
+
+
+updateProduct: async (req, res) => {
+  const { value, error } = joiProductSchema.validate(req.body);
+  if (error) {
+    return res.status(401).json({ message: error.details[0].message });
+  }
+
+  const { productId, title, description, price, image, category } = value;
+  const pIdCheck = await productDB.findById(productId); //checking product by its id if product exist
+  if (!pIdCheck) {
+    return res.status(404).json({
+      status: "failure",
+      message: "Product not found in the database. Check the product Id.",
+    });
+  }
+  await productDB.findByIdAndUpdate(
+    { _id: productId },
+    {
+      $set: {
+        title,
+        description,
+        price,
+        image,
+        category,
+      },
+    }
   );
-};
-
-export default Items;
+  res
+    .status(200)
+    .json({ status: "success", message: "successfully update a product." });
+}

@@ -8,7 +8,7 @@ const axiosInstance = axios.create({
 // Add an interceptor to set the Authorization header
 axiosInstance.interceptors.request.use((config) => {
   const jwtToken = localStorage.getItem("jwtToken");
-  if (jwtToken) {
+  if (jwtToken!=="" || jwtToken !=="null") {
     config.headers.Authorization = `Bearer ${jwtToken}`;
   }
   return config;

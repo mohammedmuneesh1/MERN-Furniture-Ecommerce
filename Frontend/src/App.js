@@ -11,7 +11,7 @@ import {
   Routes,
   useLocation,
 } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Sofa from "./Main-Component/Category Page/Sofa";
 import ProductPage from "./Body/ProductPage";
 import Bowl from "./Main-Component/Category Page/Bowl";
@@ -36,6 +36,7 @@ import Aappliances from "./Admin/P-TYPE/Aappliances";
 import ProductEditPage from "./Admin/ProductEditPage";
 import ProductAddPage from "./Admin/ProductAddPage";
 import OrderDetails from "./Admin/OrderDetails";
+import axiosInstance from "./Admin/Axios/axiosInstance";
 function App() {
   const [item, setItem] = useState(product);
   const [user, setUser] = useState(UserData);
@@ -44,6 +45,7 @@ function App() {
   const [close, setClose] = useState(false);
   const [cart, setCart] = useState([]);
   const [displayname,setDisplayname]=useState("");
+  const [productfetch,setProductfetch] = useState([]);
   //code to remove header and footer admin dashboard
   const location = useLocation();
   const HeadFoot = location.pathname.startsWith("/Admin");
@@ -54,6 +56,8 @@ function App() {
     setItem(UpdateProduct);
 
     }
+
+    
   return (
     <>
       <MyData.Provider
@@ -72,7 +76,8 @@ function App() {
           setCart,
           removeItem,
           displayname,
-          setDisplayname
+          setDisplayname,
+
         }}
       >
         { !HeadFoot && <Header />}
