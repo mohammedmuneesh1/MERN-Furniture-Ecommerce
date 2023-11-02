@@ -25,16 +25,36 @@ export default function ProductEditPage() {
 
   }
 
-  // const updateProduct=(id)=>{
 
-  //   // const ProductId = 
-  //   try{
-       
-  //   }
-  //   catch(error){
 
-  //   }
-  // }
+
+
+
+
+
+
+
+
+
+
+
+  const updateProduct = async (e,id)=>{
+    e.preventDefault();
+    console.log(id)
+    const ProductId = id;
+    const title = e.target.Pname.value;
+    const price =e.target.Pprice.value;
+    const category = e.target.Pcategory.value;
+
+    // productId, title, description, ,
+    try{
+      const response = await axiosInstance.put('/api/admin/products')
+       console.log("hello")
+    }
+    catch(error){
+console.log(error.message)
+    }
+  }
 
   // const UpdateProduct=(e)=>{
   //   e.preventDefault();
@@ -66,7 +86,7 @@ return(
     ) : (
       <form>
         <h3 className="text-center pt-5 mb-3">ADD NEW PRODUCT</h3>
-        
+
         {/* <MDBInput
           
           htmlFor="form1"
@@ -120,7 +140,7 @@ return(
         </select>
 
         <div className="d-flex justify-content-center ">
-          <MDBBtn type="submit" className="mb-5" color="warning">
+          <MDBBtn type="submit" className="mb-5" color="warning" onClick={(e)=>updateProduct(e,product._id)}>
             UPDATE        
           </MDBBtn>
         </div>
