@@ -93,7 +93,7 @@ export default function ProductAddPage() {
   
           />
 
-<MDBInput
+        <MDBInput
             label="Product URL"
             htmlFor="form1"
             type="url"

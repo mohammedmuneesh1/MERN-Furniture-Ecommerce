@@ -27,13 +27,6 @@ export default function ProductEditPage() {
 
   }
 
-
-
-
-
-
-
-
        const updateProduct = async(e,id)=>{
          e.preventDefault();
          const image = fileInputRef.current.files[0];
@@ -48,25 +41,26 @@ export default function ProductEditPage() {
     if(!price || !category || !title || !description) return alert("enter all field before proceeding");
     if(isNaN(price)) return alert("Enter digit Only for price");   
     
+
+
     const formData = new FormData();
     formData.append("productId",productId)
     formData.append("title", title);
     formData.append("price", price);
     formData.append("description", description);
     formData.append("category", category);
+
     if(image)
     {
     formData.append("image", image); // IMAGE IS THE NAME IN SINGLE.UPLOAD("image")
-   
-  }
+     }
 
    
-    const payload = {
-      productId,price,category,title,description
-    }
+    const payload = {productId,price,category,title,description}
     if (imgurl) {
       payload.image = imgurl;
     }
+    console.log(formData)
 
     try{
        const response = image ? await axiosInstance.put('/api/admin/products',formData) :  await axiosInstance.put('/api/admin/products',payload)  
@@ -94,7 +88,7 @@ return(
     {!product ? ( 
       <p>Loading...</p>
     ) : (
-      <form onSubmit={(e)=>updateProduct(e,product._id)}>
+      <form encType="multipart/form-data" onSubmit={(e) => updateProduct(e, product._id)}>
         <h3 className="text-center pt-5 mb-3">EDIT THE PRODUCT</h3>
        
        

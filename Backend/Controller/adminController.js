@@ -141,7 +141,7 @@ module.exports = {
   },
   
   updateProduct: async (req, res) => {
-    console.log("working")
+  
     const { value, error } = joiUpdateProductSchema.validate(req.body);
     if (error) {
       console.log(error.message)
