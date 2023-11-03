@@ -13,101 +13,68 @@ export default function ProductAddPage() {
 
 
 
-  // const addproduct = (e) => {
-  //   e.preventDefault(e);
-  //   const imgurl = e.target.imgupload.value;
-  //   const Pname = e.target.Pname.value.trim();
-  //   const Pprice = parseInt(e.target.Pprice.value.trim());
-  //   const Pcategory = e.target.Pcategory.value.trim();
-  //   if (Pcategory === "ptype") {
-  //     alert("Please select a valid category.");
-  //   } 
-  //   else if (imgurl === "" || Pname === "" || Pprice === "" || Pcategory === "") {
-  //     alert("Enter valid input[Dont use whitespace only]");
-  //   } 
-  //   else {
-  //     if (isNaN(Pprice)) {
-  //       alert("enter a number");
-  //     }
-  //     else if(Pcategory === "ptype")
-  //     {
-  //       alert("please select a category");
-  //     }
-  //     else {
-  //       const isProductExists = item.some((product) => product.name === Pname);
-  //       //simple method to check if item exist some() took duplicate and check its existence;
-  //       if (isProductExists) {
-  //         alert("already added");
-  //         navigate("/Admin/Products");
-  //         return;
-  //       }
-  //       setItem([
-  //         ...item,
-  //         {
-  //           id: Lid + 1,
-  //           category: Pcategory.charAt(0).toUpperCase() + Pcategory.slice(1),
-  //           name: Pname,
-  //           src: imgurl,
-  //           price: Pprice,
-  //           quantity: 1,
-  //         },
-  //       ]);
-  //       alert("product added successfully");
-  //     }
-  //   }
-  // };
 
 
-const addproduct= async(e)=>{
-  e.preventDefault();
+  const addproduct = async (e) => {
+    e.preventDefault();
+  
+    const image = fileInputRef.current.files[0];
 
-      const image = fileInputRef.current.files[0];
-      const form = document.getElementById("productForm");
+    const imgurl = e.target.imgurl.value.trim();
+    const form = document.getElementById("productForm");
     const title = e.target.Pname.value.trim();
     const price = parseInt(e.target.Pprice.value.trim().replace(/,/g, ''));
     const category = e.target.Pcategory.value.trim();
     const description = e.target.pDescription.value;
-       if (category === "ptype") {
+  
+    if (image && imgurl || !image && !imgurl) {
+      return alert("Please provide either a file or a URL,  NOT BOTH.");
+    }
+    if (category === "ptype") {
       return alert("Please select a valid category.");
-    } 
+    }
+  
+    if (title === "" || price === "" || category === "" || description === "") {
+      return alert("Please ensure all fields contain valid data.");
+    }
+    if (isNaN(price)) {
+      return alert("Enter a valid product price in digits.");
+    }
+  
+    const formData = new FormData();
 
-   else if ( title === "" || price === "" || category === "" || description === "") {
-     return alert("Please ensure all fields contain valid data.") 
-  }
-  else if (isNaN(price)) {
-    return alert("Enter a valid product price in digits.");
-  }
+    formData.append("image", image); // IMAGE IS THE NAME IN SINGLE.UPLOAD("image")
+    formData.append("title", title);
+    formData.append("price", price);
+    formData.append("description", description);
+    formData.append("category", category);
 
-        else{
-          try{
-            
-            const formData = new FormData();
-             formData.append("image", image);         //IMAGE IS THE NAME IN SINGLE.UPLOAD("image")
-             formData.append("title", title);
-             formData.append("price", price);
-            formData.append("description", description);
-            formData.append("category", category);
+    // title, description, price, image, category
+    const payload = {
+      title,
+      description,
+      price,
+      image: imgurl, // This part depends on whether 'image' or 'imgurl' should be used
+      category,
+    };
+  
+    try {
+      const response = image
+        ? await axiosInstance.post('/api/admin/products', formData)
+        : await axiosInstance.post('/api/admin/products', payload);
+  
+      if (response.status === 201) {
+        alert("Product added successfully");
+        form.reset();
+        e.target.Pcategory.value = "ptype";
+      }
+    } catch (error) {
+      console.log(error);
+      alert("Product Error: " + error.response.data.message);
+    }
+  };
+  
 
-          const response = await axiosInstance.post('/api/admin/products',formData)
-          
-          if(response.status === 201){
-            alert("product added successfully")
-            form.reset()
-            e.target.Pcategory.value="ptype"
-          }
-        }
-        catch(error){
-          console.log(error)
-          alert("product Error" + error.response.data.message)
-        }
-          
-
-
-        }
-
-
-
-}
 
 
   return (
@@ -123,7 +90,16 @@ const addproduct= async(e)=>{
             name="image"
             className="mb-4"
             ref={fileInputRef} 
-            required
+  
+          />
+
+<MDBInput
+            label="Product URL"
+            htmlFor="form1"
+            type="url"
+            autoComplete="off"
+            name="imgurl"
+            className="mb-4"
           />
 
 

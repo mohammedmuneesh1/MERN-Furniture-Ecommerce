@@ -21,16 +21,18 @@ const imgUpload = (req,res,next)=>{
         if(err){
             return res.status(400).json({message:err.message})
         }
-        if(!req.file){
-            return res.status(400).json({status:"Failure",message:"No file uploaded"})
-        }
+        console.log(req.file)
+        if(req.file){
+            
+       
         try{
             const result = await cloudinary.uploader.upload(req.file.path,{
                 folder:"Ecommerce-images"     //folder name
             })
             // console.log('Cloudinary Upload Result:', result); 
             req.body.image = result.secure_url;  //HERE WE PASSING THE IMAGE URL INTO {image} = req.body
-           fs.unlink(req.file.path,(error)=>{
+          
+            fs.unlink(req.file.path,(error)=>{
             if(error){
                 console.log(error.message)
             }
@@ -42,6 +44,10 @@ const imgUpload = (req,res,next)=>{
             return res.status(500).json({message:"Error uploading file to Cloudinary"})
 
         }
+    }
+    else{
+        next();
+    }
 
     })
 }

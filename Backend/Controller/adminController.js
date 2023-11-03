@@ -70,9 +70,6 @@ module.exports = {
     if (error) {
       return res.status(400).json({ message: error.details[0].message });
     }
-
-
-    
     const { title, description, price, image, category } = value;
 
     await productDB.create({ title, description, price, image, category });
@@ -80,9 +77,7 @@ module.exports = {
       .status(201)
       .json({ status: "success", message: "successfully created a product" });
   },
-
-
-
+  
   deleteProduct: async (req, res) => {
     const id = req.params.id;
     const productDeleted = await productDB.findByIdAndRemove(id);
@@ -95,10 +90,6 @@ module.exports = {
       .status(200)
       .json({ status: "success", message: "successfully deleted a product" });
   },
-
-  
-  
-
   allProduct: async (req, res) => {
     const products = await productDB.find();
     if (!products) {
@@ -151,13 +142,13 @@ module.exports = {
   
   updateProduct: async (req, res) => {
     console.log("working")
-
     const { value, error } = joiUpdateProductSchema.validate(req.body);
     if (error) {
-      console.log(error.details[0].message)
-      return res.status(401).json({ message: error.details[0].message });
+      console.log(error.message)
+      return res.status(401).json({ message: error.message });
     }
     const { productId, title, description, price,category } = value;
+    console.log(productId)
     const pIdCheck = await productDB.findById(productId); //checking product by its id if product exist
     if (!pIdCheck) {
       return res.status(404).json({
@@ -165,17 +156,34 @@ module.exports = {
         message: "Product not found in the database. Check the product Id.",
       });
     }
-    await productDB.findByIdAndUpdate(
-      { _id: productId },
-      {
-        $set: {
-          title,
-          description,
-          price,
-          category,
-        },
-      }
-    );
+    if(req.body.image){
+      await productDB.findByIdAndUpdate(
+        { _id: productId },
+        {
+          $set: {
+            title,
+            description,
+            price,
+            category,
+            image: req.body.image,
+          },
+        }
+      );
+     
+    }
+    else{
+       await productDB.findByIdAndUpdate(
+        { _id: productId },
+        {
+          $set: {
+            title,
+            description,
+            price,
+            category,
+          },
+        }
+      );
+    }
     res
       .status(200)
       .json({ status: "success", message: "successfully update a product." });
