@@ -1,12 +1,37 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { MDBTable, MDBTableHead, MDBTableBody,MDBBtn } from "mdb-react-ui-kit";
-import { MyData } from "../Main-Component/MyData";
 import { useNavigate } from "react-router-dom";
-
+import axiosInstance from '.././Admin/Axios/axiosInstance'
 export default function Auser() {
-  const { user } = useContext(MyData);
+    const [user,setUser] = useState([])
   const navigate=useNavigate();
-  const customers = user.filter((value) => value.type === "user");
+    const userDetails = async ()=>{
+    try{
+      const response = await axiosInstance.get("/api/admin/users")
+      if(response.status === 200){
+      return  setUser(response.data.data)
+  
+      } 
+    }
+    catch(error){
+      console.log(error.message)
+    }
+  }
+
+useEffect(()=>{userDetails()},[])    
+
+
+
+
+
+
+
+
+
+// return(
+//   <h1>hello world</h1>
+// )
+// }    
 
   return (
     <>
@@ -21,12 +46,12 @@ export default function Auser() {
             </tr>
           </MDBTableHead>
           <MDBTableBody>
-            {customers.map((value, index) =>(
-              <tr key={value.id}>
-                <th>{value.id}</th>
+            {user.map((value, index) =>(
+              <tr key={value._id}>
+                <th>{value._id}</th>
                 <td>{value.name}</td>
                 <td>{value.email}</td>
-                <td> <MDBBtn color='info' onClick={()=>navigate(`/Admin/OrderDetails/${value.id}`)}>
+                <td> <MDBBtn color='info' onClick={()=>navigate(`/Admin/OrderDetails/${value._id}`)}>
         Info
       </MDBBtn></td>
               </tr>
@@ -37,3 +62,4 @@ export default function Auser() {
     </>
   );
 }
+

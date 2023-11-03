@@ -182,7 +182,7 @@ module.exports = {
   },
 
   orderDetails: async (req, res) => {
-    const order = await OrderDB.find();
+    const order = await OrderDB.find()
     console.log(order);
     if (order.length === 0) {
       return res
@@ -196,6 +196,25 @@ module.exports = {
     });
   },
 
+
+  UserOrder: async (req, res) => {
+    const userid = req.params.id;
+    console.log(userid);
+  
+    try {
+      const data = await OrderDB.find({ userid }).populate('products');
+      console.log(data);
+  
+      if (data.length === 0) {
+        return res.status(404).json({ status: 'Failure', message: 'User has not ordered anything' });
+      }
+  
+      res.status(200).json({ status: 'Success', message: 'Orders Found', data });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ status: 'Error', message: 'An error occurred while fetching orders' });
+    }
+  },
   analysis: async (req, res) => {
     const order = await OrderDB.find();
 

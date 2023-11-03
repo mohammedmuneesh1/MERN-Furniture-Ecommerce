@@ -19,6 +19,7 @@ router
 .delete('/products/:id',tryCatch(controller.deleteProduct))
 .put('/products',tryCatch(controller.updateProduct))
 .get('/orders',tryCatch(controller.orderDetails))
+.get('/order/:id',tryCatch(controller.UserOrder))
 .get('/stats',tryCatch(controller.analysis))
 
 
