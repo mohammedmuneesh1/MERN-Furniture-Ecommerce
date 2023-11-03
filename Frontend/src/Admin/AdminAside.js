@@ -1,67 +1,54 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { MyData } from "../Main-Component/MyData";
+
 export default function AdminAside() {
   const navigate = useNavigate();
-  const {lstatus,setLstatus}=useContext(MyData)
+  const { lstatus, setLstatus } = useContext(MyData);
+
+  const [selectedValue, setSelectedValue] = useState("P-Type");
+
+
+  const handleNavigation = (route, newValue) => {
+    setSelectedValue(newValue); // Set the selected value when navigating
+    navigate(route);
+  };
 
   return (
     <>
       <div className="a-dash">
         <h3
-          onClick={(e) => {
-            e.preventDefault();
-            navigate("/Admin");
+          onClick={() => {
+            handleNavigation("/Admin", "P-Type");
           }}
         >
           DASHBOARD
         </h3>
         <ul>
-        <li>
+          <li>
             <span className="material-symbols-outlined">Home</span>
-            <label
-              onClick={(e) => {
-                e.preventDefault();
-                navigate("/Admin");
-              }}
-            >
+            <label onClick={() => handleNavigation("/Admin", "P-Type")}>
               Home
             </label>
           </li>
-
-
-
           <li>
             <span className="material-symbols-outlined">person</span>
-            <label
-              onClick={(e) => {
-                e.preventDefault();
-                navigate("/Admin/Auser");
-              }}
-            >
+            <label onClick={() => handleNavigation("/Admin/Auser", "P-Type")}>
               Users
             </label>
           </li>
-          <li onClick={(e)=>{navigate("/Admin/Revenue")}}>
+          <li onClick={() => handleNavigation("/Admin/Revenue", "P-Type")}>
             <span className="material-symbols-outlined">attach_money</span>
             <label> Revenue</label>
           </li>
-          <li
-            onClick={(e) => {
-              e.preventDefault();
-              navigate("/Admin/Products");
-            }}
-          >
+          <li onClick={() => handleNavigation("/Admin/Products", "P-Type")}>
             <span className="material-symbols-outlined">
               production_quantity_limits
             </span>
             <label>Products</label>
           </li>
-          <li    onClick={(e) => {
-              e.preventDefault();
-              navigate("/Admin/ProductAddPage");
-            }}>
+          <li onClick={() => handleNavigation("/Admin/ProductAddPage", "P-Type")}>
             <span className="material-symbols-outlined">add_circle</span>
             <label>Products</label>
           </li>
@@ -69,53 +56,37 @@ export default function AdminAside() {
             <span className="material-symbols-outlined">category</span>
             <select
               onChange={(e) => {
-                e.preventDefault();
-                const selectedValue = e.target.value;
-            
-                switch (selectedValue) {
-                  case "Sofa":
-                    e.preventDefault();
-                    navigate("/Admin/Products/Sofa");
-                    break;
-                  case "bowls":
-                    navigate("/Admin/Products/Bowl");
-                    break;
-                  case "lamps":
-                    navigate("/Admin/Products/Lamp");
-                    break;
-                  case "plants":
-                    navigate("/Admin/Products/Plant");
-                    break;
-                  case "mattress":
-                    navigate("/Admin/Products/Mattress");
-                    break;
-                  case "appliances":
-                    navigate("/Admin/Products/Appliances");
-                    break;
-                  default:
-                    break;
+                const newValue = e.target.value;
+                handleNavigation(`/Admin/Products/${newValue}`, newValue);
+              }}
+              value={selectedValue}
+            >
+              <option value="ptype">P-Type</option>
+              <option value="sofa">Sofa</option>
+              <option value="Bowl">Bowls</option>
+              <option value="Lamp">Lamps</option>
+              <option value="Plant">Plants</option>
+              <option value="Mattress">Mattress</option>
+              <option value="Appliances">Appliances</option>
+            </select>
+          </li>
+          <li onClick={() => handleNavigation("/", "P-Type")}>
+            <span className="material-symbols-outlined">logout</span>
+            <label
+              onClick={() => {
+                const confirmLogout = window.confirm(
+                  "Are you sure you want to log out?"
+                );
+
+                if (confirmLogout) {
+                  setLstatus(!lstatus);
+                  localStorage.removeItem("jwtToken");
                 }
               }}
             >
-              <option value="ptype">P-Type</option>
-              <option value="Sofa">Sofa</option>
-              <option value="bowls">Bowls</option>
-              <option value="lamps">Lamps</option>
-              <option value="plants">Plants</option>
-              <option value="mattress">Mattress</option>
-              <option value="appliances">Appliances</option>
-            </select>
+              Log Out
+            </label>
           </li>
-          <li onClick={()=>navigate("/")}>
-            <span className="material-symbols-outlined" >logout</span>
-            <label onClick={()=>{ 
-               const confirmLogout = window.confirm( "Are you sure you want to log out?");
-
-                          if (confirmLogout) {
-                            setLstatus(!lstatus)
-                            localStorage.removeItem("jwtToken")
-                          }}}>Log Out</label>
-                        </li>
         </ul>
       </div>
     </>

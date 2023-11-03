@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const userDB = require("../Model/usersDB");
 const productDB = require("../Model/productsDB");
 const OrderDB = require("../Model/OrderDB");
-const { joiProductSchema } = require("../Model/validateJoiSchema");
+const { joiProductSchema ,joiUpdateProductSchema } = require("../Model/validateJoiSchema");
 
 
 module.exports = {
@@ -66,7 +66,6 @@ module.exports = {
   },
 
   createProduct: async (req, res) => {
-    console.log("working")
     const { value, error } = joiProductSchema.validate(req.body);
     if (error) {
       return res.status(400).json({ message: error.details[0].message });
@@ -85,7 +84,6 @@ module.exports = {
 
 
   deleteProduct: async (req, res) => {
-    console.log("its working");
     const id = req.params.id;
     const productDeleted = await productDB.findByIdAndRemove(id);
     if (!productDeleted) {
@@ -152,11 +150,13 @@ module.exports = {
   },
   
   updateProduct: async (req, res) => {
-    const { value, error } = joiProductSchema.validate(req.body);
+    console.log("working")
+
+    const { value, error } = joiUpdateProductSchema.validate(req.body);
     if (error) {
+      console.log(error.details[0].message)
       return res.status(401).json({ message: error.details[0].message });
     }
-
     const { productId, title, description, price,category } = value;
     const pIdCheck = await productDB.findById(productId); //checking product by its id if product exist
     if (!pIdCheck) {

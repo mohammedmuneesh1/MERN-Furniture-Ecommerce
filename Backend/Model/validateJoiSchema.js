@@ -22,5 +22,15 @@ const joiProductSchema = joi.object({
     
 });
 
+const joiUpdateProductSchema = joi.object({
+  productId:joi.string(),
+  title: joi.string().required(),
+  price: joi.number().min(1).positive().required(),
+  image: joi.string(),
+  description: joi.string().required(),
+  category: joi.string().required()
 
-module.exports={joiUserRegisterSchema, joiUserLoginSchema ,joiProductSchema }
+})
+
+
+module.exports={joiUserRegisterSchema, joiUserLoginSchema ,joiProductSchema ,joiUpdateProductSchema }

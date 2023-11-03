@@ -1,21 +1,22 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState} from 'react'
 import { MDBBtn, MDBInput } from "mdb-react-ui-kit";
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { MyData } from '../Main-Component/MyData';
 import axiosInstance from './Axios/axiosInstance';
+
 export default function ProductEditPage() {
+  const navigate = useNavigate();
  const [product,setProduct] = useState();
   const {id}=useParams();
   const {item,setItem}=useContext(MyData);
   const arrindex=id-1;
 
-
   const productChk = async ()=>{
     try{
       const response = await axiosInstance.get(`/api/admin/products/${id}`);
-
       if(response.status === 200){
         setProduct(response.data.data);
+          
       }
     }
     catch(error){
@@ -32,51 +33,38 @@ export default function ProductEditPage() {
 
 
 
+       const updateProduct = async(e,id)=>{
+         e.preventDefault();
+    const productId = id;
+    const price = e.target.price.value.trim();
+    const category = e.target.category.value;
+    const title = e.target.title.value.trim();
+    const description = e.target.description.value.trim();
 
+    if(!price || !category || !title || !description) return alert("enter all field before proceeding");
+    if(isNaN(price)) return alert("Enter digit Only for price");   
 
-
-
-
-
-  const updateProduct = async (e,id)=>{
-    e.preventDefault();
-    console.log(id)
-    const ProductId = id;
-    const title = e.target.Pname.value;
-    const price =e.target.Pprice.value;
-    const category = e.target.Pcategory.value;
-
-    // productId, title, description, ,
+    const payload = {
+      productId,price,category,title,description
+    }
     try{
-      const response = await axiosInstance.put('/api/admin/products')
-       console.log("hello")
+       const response = await axiosInstance.put('/api/admin/products',payload)
+       console.log(response)
+       if(response.status === 200){
+        alert("Product Edited Successfully")
+        navigate(-1)  //-1 for going back to previous route 
+       }
     }
     catch(error){
-console.log(error.message)
+      console.log(error.message)
     }
+
+
   }
-
-  // const UpdateProduct=(e)=>{
-  //   e.preventDefault();
-
-  //   const UpdatedItem=[...item];
-
-  //    UpdatedItem[arrindex]={
-  //     ...UpdatedItem[arrindex],
-  //     category:e.target.Pcategory.value,
-  //     name:e.target.Pname.value,
-  //     src:e.target.imgurl.value,
-  //     price:e.target.Pprice.value
-  //   }
-  //   setItem(UpdatedItem);
-
-
-  // }
-
+      
 useEffect(()=>{
   productChk();
 },[]);
-
 
 return(
   <div className='a-body'>
@@ -84,36 +72,40 @@ return(
     {!product ? ( 
       <p>Loading...</p>
     ) : (
-      <form>
-        <h3 className="text-center pt-5 mb-3">ADD NEW PRODUCT</h3>
-
-        {/* <MDBInput
-          
-          htmlFor="form1"
-          type="file"
-          autoComplete="off"
-          name="imgurl"
-          className="mb-4"
-          
-        /> */}
+      <form onSubmit={(e)=>updateProduct(e,product._id)}>
+        <h3 className="text-center pt-5 mb-3">EDIT THE PRODUCT</h3>
+        
 
          <MDBInput
           label="Product Name"
           htmlFor="form1"
           type="text"
           autoComplete="off"
-          name="Pname"
+          name="title"
           className="mb-4"
           defaultValue={product.title}
           required
         />
+
+<MDBInput
+          label="Product Description"
+          htmlFor="form1"
+          type="text"
+          autoComplete="off"
+          name="description"
+          className="mb-4"
+          defaultValue={product.price}
+          required
+
+        />
+
 
          <MDBInput
           label="Product Price"
           htmlFor="form1"
           type="text"
           autoComplete="off"
-          name="Pprice"
+          name="price"
           className="mb-4"
           defaultValue={product.price}
           required
@@ -126,7 +118,7 @@ return(
             outline: "none",
            background:"none"
           }}
-          name="Pcategory"
+          name="category"
           defaultValue={product.category}
           required  
         >
@@ -138,21 +130,47 @@ return(
           <option value="Mattress">Mattress</option>
           <option value="Appliances">Appliances</option>
         </select>
-
         <div className="d-flex justify-content-center ">
-          <MDBBtn type="submit" className="mb-5" color="warning" onClick={(e)=>updateProduct(e,product._id)}>
+          <MDBBtn type="submit" className="mb-5" color="warning" >
             UPDATE        
           </MDBBtn>
         </div>
-
-
-        
-
       </form>
-    )}
+)}
   </div>
 </div>
 )
+
+
+
+
+
+
+        {/* <MDBInput
+          
+          htmlFor="form1"
+          type="file"
+          autoComplete="off"
+          name="imgurl"
+          className="mb-4"
+          
+        /> */}
+
+
+
+
+
+    // const title = e.target.Pname.value;
+    // console.log(title)
+    // const price =e.target.Pprice.value.trim();
+    // const category = e.target.Pcategory.value;
+
+    // if(Number.NaN(price)){
+    //   return alert("Enter valid digit as price ")
+    // }
+
+
+
 
 
   // return (
@@ -194,3 +212,40 @@ return(
   // </div>
   // )
 }
+
+
+
+
+
+
+
+
+
+
+
+
+ // productId, title, description, ,
+//     try{
+//       const response = await axiosInstance.put('/api/admin/products')
+//        console.log("hello")
+//     }
+//     catch(error){
+// console.log(error.message)
+//     }
+
+  // const UpdateProduct=(e)=>{
+  //   e.preventDefault();
+
+  //   const UpdatedItem=[...item];
+
+  //    UpdatedItem[arrindex]={
+  //     ...UpdatedItem[arrindex],
+  //     category:e.target.Pcategory.value,
+  //     name:,
+  //     src:e.target.imgurl.value,
+  //     price:e.target.Pprice.value
+  //   }
+  //   setItem(UpdatedItem);
+
+
+  // }

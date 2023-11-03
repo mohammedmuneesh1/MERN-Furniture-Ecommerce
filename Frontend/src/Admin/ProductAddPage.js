@@ -64,7 +64,7 @@ const addproduct= async(e)=>{
       const image = fileInputRef.current.files[0];
       const form = document.getElementById("productForm");
     const title = e.target.Pname.value.trim();
-    const price = parseInt(e.target.Pprice.value.trim());
+    const price = parseInt(e.target.Pprice.value.trim().replace(/,/g, ''));
     const category = e.target.Pcategory.value.trim();
     const description = e.target.pDescription.value;
        if (category === "ptype") {
@@ -74,7 +74,7 @@ const addproduct= async(e)=>{
    else if ( title === "" || price === "" || category === "" || description === "") {
      return alert("Please ensure all fields contain valid data.") 
   }
-  else if (Number.isNaN(price)) {
+  else if (isNaN(price)) {
     return alert("Enter a valid product price in digits.");
   }
 
