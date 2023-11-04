@@ -75,6 +75,7 @@ module.exports = {
 
   
   products: async (req, res) => {
+
     const products = await productDB.find();
     res.status(200).json({
       status: "Success",
@@ -82,6 +83,7 @@ module.exports = {
       products,
     });
   },
+  
   productById: async (req, res) => {
     const id = req.params.id;
     const product = await productDB.findById(id);

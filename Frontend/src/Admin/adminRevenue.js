@@ -11,7 +11,6 @@ export default function AdminRevenue(){
         try{
             const response = await axiosInstance.get('/api/admin/stats')
             if(response.status === 200){
-              console.log(response.data.data)
                 setStat(response.data.data);
             }
 

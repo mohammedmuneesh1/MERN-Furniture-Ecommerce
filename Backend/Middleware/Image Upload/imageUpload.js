@@ -1,5 +1,6 @@
 const fs = require("fs");
 const multer = require('multer')
+
 const storage = multer.diskStorage({
     destination:'uploads/',
     filename:(req,file,cb)=>{
@@ -21,7 +22,6 @@ const imgUpload = (req,res,next)=>{
         if(err){
             return res.status(400).json({message:err.message})
         }
-        console.log(req.file)
         if(req.file){
             
        
