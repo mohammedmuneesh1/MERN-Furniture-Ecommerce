@@ -190,7 +190,7 @@ module.exports = {
   },
 
   orderDetails: async (req, res) => {
-    const order = await OrderDB.find()
+    const order = await OrderDB.find().populate("products")
     console.log(order);
     if (order.length === 0) {
       return res

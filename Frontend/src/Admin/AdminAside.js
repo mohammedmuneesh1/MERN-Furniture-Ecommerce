@@ -37,7 +37,13 @@ export default function AdminAside() {
             <label onClick={() => handleNavigation("/Admin/Auser", "P-Type")}>
               Users
             </label>
+            
           </li>
+          <li onClick={() => handleNavigation("/Admin/Orders", "P-Type")}>
+            <span className="material-symbols-outlined">attach_money</span>
+            <label>Orders</label>
+          </li>
+
           <li onClick={() => handleNavigation("/Admin/Revenue", "P-Type")}>
             <span className="material-symbols-outlined">attach_money</span>
             <label> Revenue</label>

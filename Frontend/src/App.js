@@ -24,6 +24,7 @@ import AdminHome from "./Admin/AdminHome";
 import Auser from "./Admin/Auser";
 import AallProduct from "./Admin/AallProduct";
 import AdminRevenue from "./Admin/adminRevenue";
+import AdminOrders from "./Admin/adminOrders"
 
 // P-TYPE importing 
 import Asofa from "./Admin/P-TYPE/Asofa";
@@ -32,7 +33,6 @@ import ALamps from "./Admin/P-TYPE/ALamps";
 import Aplants from './Admin/P-TYPE/Aplants';
 import Amattress from "./Admin/P-TYPE/Amattress";
 import Aappliances from "./Admin/P-TYPE/Aappliances";
-
 import ProductEditPage from "./Admin/ProductEditPage";
 import ProductAddPage from "./Admin/ProductAddPage";
 import OrderDetails from "./Admin/OrderDetails";
@@ -108,6 +108,7 @@ function App() {
       <Route path="/Admin/ProductAddPage" element={<ProductAddPage/>} />
       <Route path="/Admin/ProductEdit/:id" element={<ProductEditPage/>} />
       <Route path="/Admin/OrderDetails/:id" element={<OrderDetails/>} />
+      <Route path="/Admin/Orders" element={<AdminOrders/>} />
       {/* routennte ullil wrap cheyyaane so parent-pathname + child path name */}
     
     </Route>
