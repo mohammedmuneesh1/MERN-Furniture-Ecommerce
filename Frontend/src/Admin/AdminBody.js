@@ -1,4 +1,5 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import axiosInstance from './Axios/axiosInstance'
 import {
   MDBTable,
   MDBTableHead,
@@ -8,12 +9,63 @@ import {
 import { MyData } from "../Main-Component/MyData";
 export default function AdminBody() {
   const { user,item } = useContext(MyData);
+  const [data, setData] = useState({ users: 0, revenue: 0, productSold: 0 });
+
+  const dataUpdate = (obj) => {
+    setData((prevData) => ({
+      ...prevData,
+      ...obj,
+    }));
+  };
+  
+  const totalUsers = async () => {
+    try {
+      const response = await axiosInstance.get('/api/admin/users');
+      dataUpdate({ users: response.data.data.length });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+  
+  const revenueFn = async () => {
+    try {
+      const response = await axiosInstance.get('/api/admin/stats');
+      if (response.status === 200) {
+        dataUpdate({
+          revenue: response.data.data[0].revenue,
+          productSold: response.data.data[0].totalProductPurchased,
+        });
+      }
+    } catch (error) {
+      console.log("error on admin revenue side: " + error.message);
+    }
+  };
+  const order = async ()=>{
+    try{
+     const response = await axiosInstance.get('/api/admin/orders');
+     if(response.status === 200){ 
+       dataUpdate({orders:response.data.order.length})
+       }
+    }
+    catch(error){
+
+    }
+  }
+  console.log(data)
+  useEffect(() => {
+    totalUsers();
+    revenueFn();
+    order();
+  }, []);
+  
+
+
   return (
     <div className="a-body" >
       <div className="d-flex justify-content-center align-items-center flex-wrap gap-5 mb-5 mt-5">
         <div className="content-box">
           <h6>Total Users</h6>
-          <h2>{user.length - 1}</h2> {/*-1 [ADMIN] */}
+          <h2>{data.users}</h2>
           <p className="text-success">
             <MDBIcon fas icon="user-alt" className="me-2" />
             {Math.round(Math.random() * 100) / 10}%
@@ -22,10 +74,10 @@ export default function AdminBody() {
                 
         </div>
         <div className="content-box">
-          <h6>Total Orders</h6>
-          <h2>{Math.round(Math.random()* 10000)}</h2>
+          <h6>Total Orders Received</h6>
+          <h2>{data.orders}</h2>
           <p className="text-success">
-            <MDBIcon  className="me-2" />
+           
             <span class="material-symbols-outlined">order_approve</span>
             {Math.round(Math.random() * 100) / 10}%{" "}
             <span className="text-muted"> Last Month</span>
@@ -33,11 +85,11 @@ export default function AdminBody() {
                 
         </div>
         <div className="content-box">
-          <h6>No. Of Visits</h6>
-          <h2>{Math.round(Math.random()* 10000)}</h2>
+          <h6>revenue</h6>
+          <h2>{data.revenue}</h2> 
          
           <p className="text-success">
-            <MDBIcon fas icon="users" className="me-2" />
+          <MDBIcon fas icon="dollar-sign" />
             {Math.round(Math.random() * 100) / 10}%{" "}
             <span className="text-muted"> Last Month</span>
           </p>
