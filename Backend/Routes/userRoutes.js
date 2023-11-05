@@ -12,6 +12,7 @@ router
 
 .get('/payment/success',userController.success)
 .use(verifyToken)
+
 .get('/products',tryCatch(userController.products))
 .get('/products/:id',tryCatch(userController.productById))
 .get('/products/category/:categoryname',tryCatch(userController.productByCategory))

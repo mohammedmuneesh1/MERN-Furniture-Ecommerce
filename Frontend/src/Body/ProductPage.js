@@ -18,6 +18,7 @@ const ProductPage = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [product,setProduct] = useState(null);
+
   const pPage = async () =>{
     try{
       const response = await  axiosInstance.get(`/api/admin//products/${id}`)
@@ -29,23 +30,24 @@ const ProductPage = () => {
       console.log(error.message)
     }
   }
+  const addToCart = async (id)=>{
+    const token = localStorage.getItem('jwtToken')
+    console.log(token);
+    try{
+       const response = await axiosInstance.post(`api/admin/${id}/cart`)
+    }
+    catch(error){
+      console.log(error.message)
 
-  console.log(product && product.title);
-// console.log(product.title)
+    }
+
+  }
 
 
-  // const addtocart=(newItem)=>{
 
-  //   const ItemExist = cart.filter(value => value.id === newItem.id);  //newItem.id-1 not given because onclick we already pass product[id-1]
 
-  //   if(ItemExist.length === 0){
-  //     setCart( [...cart,newItem])
 
-  //   }
-  //   else{
-  //     navigate("/cart")
-  //   }
-  // }
+
 
 
 
@@ -78,6 +80,7 @@ const ProductPage = () => {
                 rounded
                 className="det-button"
                 style={{ backgroundColor: "#ed6335" }}
+                onClick={()=>addToCart(product._id)}
               >
                 BUY NOW
               </MDBBtn>
