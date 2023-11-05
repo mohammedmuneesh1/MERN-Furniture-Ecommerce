@@ -40,6 +40,7 @@ return (
           <th scope="col">UNIT PRICE</th>
           <th scope="col">QUANTITY</th>
           <th scope="col">TOTAL PRICE</th>
+          <th scope="col">ORDER STATUS</th>
         </tr>
       </MDBTableHead>
       <MDBTableBody>
@@ -64,6 +65,33 @@ return (
                   {pindex === 0 ? (
                     <th rowSpan={value.products.length}>
                       {value.total_amount}
+                    </th>
+                  ) : null}
+
+                      {pindex === 0 ? (
+                    <th rowSpan={value.products.length}>
+                      
+                      {value.shipment === "pending" ? (
+                            <b
+                              style={{
+                                textTransform: "uppercase",
+                                color: "red",
+                               
+                              }}
+                            >
+                              {value.shipment}
+                            </b>
+                          ) : (
+                            <b
+                              style={{
+                                textTransform: "uppercase",
+                                color: "green",
+                              
+                              }}
+                            >
+                              {value.shipment}
+                            </b>
+                          )}
                     </th>
                   ) : null}
                 </tr>

@@ -287,7 +287,7 @@ module.exports = {
       total_amount: session.amount_total / 100,
     });
 
-    if (!order) {
+    if(!order) {
       return res.json({ message: "error occured while inputing to orderDB" });
     }
 

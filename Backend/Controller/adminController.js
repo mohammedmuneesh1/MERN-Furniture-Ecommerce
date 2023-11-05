@@ -48,7 +48,7 @@ module.exports = {
   },
   userById: async (req, res) => {
     const id = req.params.id;
-    console.log(id);
+    // console.log(id);
 
     const user = await userDB.findById(id);
 
@@ -148,7 +148,6 @@ module.exports = {
       return res.status(401).json({ message: error.message });
     }
     const { productId, title, description, price,category } = value;
-    console.log(productId)
     const pIdCheck = await productDB.findById(productId); //checking product by its id if product exist
     if (!pIdCheck) {
       return res.status(404).json({
@@ -191,7 +190,6 @@ module.exports = {
 
   orderDetails: async (req, res) => {
     const order = await OrderDB.find().populate("products")
-    console.log(order);
     if (order.length === 0) {
       return res
         .status(204)
@@ -207,22 +205,27 @@ module.exports = {
 
   UserOrder: async (req, res) => {
     const userid = req.params.id;
-    console.log(userid);
-  
-    try {
       const data = await OrderDB.find({ userid }).populate('products');
-      console.log(data);
-  
       if (data.length === 0) {
         return res.status(404).json({ status: 'Failure', message: 'User has not ordered anything' });
       }
-  
       res.status(200).json({ status: 'Success', message: 'Orders Found', data });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ status: 'Error', message: 'An error occurred while fetching orders' });
-    }
   },
+  orderConfirm:async (req,res)=>{
+    const id = req.params.id;
+     const confirm = await OrderDB.findByIdAndUpdate({_id:id}, { shipment: "confirm" },{ new: true });
+     //{ new: true }  add new true to get updated document
+     if(confirm && confirm.shipment === "confirm") 
+     {
+      return res.status(200).json({status:"Success",message:"Order confirmed and shipped"})
+    }
+    else{
+     return res.status(400).json({status:"Failure",message:"Shipment update failed."})
+    }
+
+    
+  },
+
   analysis: async (req, res) => {
     const order = await OrderDB.find();
 
