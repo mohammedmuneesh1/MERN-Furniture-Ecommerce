@@ -276,17 +276,14 @@ module.exports = {
   success: async (req, res) => {
     const { id, user, session } = sValue;
     const cartItems = user.cart;
-
-    // const paymentId = session.payment_intent; //payment_intent showing null
-    // console.log(paymentId)
-
     const order = await orderDB.create({
       userid: id,
       products: cartItems.map(
         (value) => new mongoose.Types.ObjectId(value._id)
       ), // we get product id in the cart
       order_id: session.id,
-      payment_id: `demo ${Date.now()}`,
+      shipment:"pending",
+      payment_id:`demo ${Date.now()}`,
       total_amount: session.amount_total / 100,
     });
 

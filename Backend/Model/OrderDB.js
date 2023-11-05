@@ -6,6 +6,7 @@ const orderSchema = mongoose.Schema({
     date: { type: String, default: new Date().toLocaleDateString() },
     time: { type: String, default: new Date().toLocaleTimeString() },
     order_id:String,
+    shipment:String,
     payment_id:String,
     total_amount:Number,
 
