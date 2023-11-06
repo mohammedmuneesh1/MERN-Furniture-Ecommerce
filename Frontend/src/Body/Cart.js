@@ -29,7 +29,9 @@ export default function Cart() {
     const id = localStorage.getItem('id')
     try{
       const response = await axiosInstance.get(`/api/users/${id}/cart`)
+      // console.log(response);
       if(response.status === 200){
+        console.log(response.data.data);
         return setCart(response.data.data) 
       }
     }
@@ -37,7 +39,7 @@ export default function Cart() {
         console.log(error)
       }
   }
-
+console.log(cart)
   useEffect(() => {
     cartItems();
     window.scrollTo(0, 0);
@@ -46,7 +48,7 @@ export default function Cart() {
 
   const removeProduct = async (itemId,itemName) => {
     const id = localStorage.getItem('id');
-    const confirm = window.confirm(`Are You Sure Want to Remove " ${itemName.toUpperCase()} " from your Cart ? `)
+    const confirm = window.confirm(`Are You Sure Want to Remove " ${itemName} " from your Cart ? `)
     if(confirm){
     try{
       const response = await axiosInstance.delete(`/api/users/${id}/cart/${itemId}`)
@@ -95,9 +97,9 @@ export default function Cart() {
   };
 
   // Calculate the total price of items in the cart
-  const totalPrice = cart && cart.length > 0
+  const totalPrice =  cart.length > 0
     ? cart.reduce((total, value) => {
-        return total + value.price * value.quantity;
+        return total + value.productsId.price * value.quantity;
       }, 0)
     : 0;
 
@@ -134,6 +136,10 @@ export default function Cart() {
     }
   };
 
+  // const tTitle=  cart.map(value=>{
+    //      value.produts
+    // })
+
 
   return (
     <>
@@ -159,7 +165,7 @@ export default function Cart() {
                         <div  key={item._id} className="d-flex align-items-center mb-5">
                           <div className="flex-shrink-0">
                             <MDBCardImage
-                              src={item.image}
+                              src={item.productsId.image}  
                               fluid
                               style={{ width: "150px" }}
                               alt="Generic placeholder image"
@@ -168,10 +174,10 @@ export default function Cart() {
 
                           <div className="flex-grow-1 ms-3">
                             <span  className="float-end text-black">
-                              <MDBIcon fas icon="times" onClick={()=>removeProduct(item._id,item.title)} />
+                              <MDBIcon fas icon="times" onClick={()=>removeProduct(item._id,item.productsId.title)} />
                             </span>
                             <MDBTypography tag="h4" className="text-primary">
-                              {item.title}
+                              {item.productsId.title}
                             </MDBTypography>
                             <MDBTypography
                               tag="h6"
@@ -182,7 +188,7 @@ export default function Cart() {
 
                             <div className="d-flex align-items-center">
                               <p className=" fs-5 fw-bold mb-0 me-5 pe-3">
-                                {item.price}
+                                {item.productsId.price}
                               </p>
 
                               <div className="def-number-input number-input safari_only">
@@ -193,13 +199,13 @@ export default function Cart() {
                                 <input
                                   className="quantity fw-bold text-black"
                                   min={1}
-                                  value={item.quantity}
+                                  value={item.productsId.quantity}
                                   type="number"
                                   disabled
                                 />
                                 <button
                                   className="plus"
-                                  onClick={() => qtyplus(item.id)}
+                                  onClick={() => qtyplus(item._id)}
                                 ></button>
                               </div>
                               {/* <p>{item.description}</p> */}

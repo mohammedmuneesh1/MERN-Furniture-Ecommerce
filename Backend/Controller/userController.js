@@ -154,7 +154,7 @@ module.exports = {
   
   showCart: async (req, res) => {
     const userId = req.params.id;
-    const user = await userDB.findOne({ _id: userId }).populate("cart");
+    const user = await userDB.findOne({ _id: userId }).populate('cart.productsId');
     if (!user) {
       return res.status(404).json({ error: "nothing to show on the cart" });
     }
