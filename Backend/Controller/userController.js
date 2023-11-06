@@ -117,10 +117,10 @@ module.exports = {
   },
 
   addToCart: async (req, res) => {
+    console.log("working");
     const userId = req.params.id;
     const checkuser = await userDB.findById(userId);
     if (!checkuser) {
-      
       return res.status(404).json({ message: "User not found." });
     }
 
@@ -131,9 +131,11 @@ module.exports = {
         message: `make sure you entered productId:`,
       });
     }
+    if(checkuser.cart.includes(productId)){
+      return res.status(409).json({status:"",message:"Product already in your cart"})
+    }
 
     await userDB.updateOne({ _id: userId }, { $addToSet: { cart: productId } });
-
     // const userWithCart = await userDB.findOne({_id:userId} );
     // console.log(userWithCart.cart);
     res.status(201).json({

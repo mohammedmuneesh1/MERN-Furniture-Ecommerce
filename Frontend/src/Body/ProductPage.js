@@ -30,17 +30,32 @@ const ProductPage = () => {
       console.log(error.message)
     }
   }
-  const addToCart = async (id)=>{
+
+  const addToCart = async (pId)=>{
     const token = localStorage.getItem('jwtToken')
-    console.log(token);
-    
+    const id = localStorage.getItem('id');
+  
+    if(token){
+      const payload= {productId:pId}
     try{
-       const response = await axiosInstance.post(`api/admin/${id}/cart`)
+       const response = await axiosInstance.post(`api/users/${id}/cart`,payload)
+        console.log(response)
+       if(response.status === 201){
+        return alert("Product added to cart")
+      
+       }
     }
     catch(error){
-      console.log(error.message)
+       if (error.response.status === 409){
+        return alert("product already in your cart")
+       }
+      console.log(error)
 
     }
+  }
+  else{
+    alert("Please Login Again");
+  }
 
   }
 
@@ -72,7 +87,9 @@ const ProductPage = () => {
          <div className="d-flex  justify-content-center gap-3 text-center mb-5">
 
          <div>
-            <MDBBtn rounded color="dark" className="det-button">
+            <MDBBtn rounded color="dark" className="det-button"
+               onClick={()=>addToCart(product._id)}
+            >
               ADD TO CART
              </MDBBtn>
        </div>
@@ -81,7 +98,7 @@ const ProductPage = () => {
                 rounded
                 className="det-button"
                 style={{ backgroundColor: "#ed6335" }}
-                onClick={()=>addToCart(product._id)}
+             
               >
                 BUY NOW
               </MDBBtn>
