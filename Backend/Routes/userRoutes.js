@@ -11,8 +11,8 @@ router
 .post('/login',tryCatch(userController.login))
 
 .get('/payment/success',userController.success)
+.post('/app/settings/:id',tryCatch(userController.appSettings))
 .use(verifyToken)
-
 .get('/products',tryCatch(userController.products))
 .get('/products/:id',tryCatch(userController.productById))
 .get('/products/category/:categoryname',tryCatch(userController.productByCategory))

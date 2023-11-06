@@ -12,6 +12,7 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const mongoose = require("mongoose");
 // const usersDB = require("../Model/usersDB");
 const bcrypt = require("bcrypt");
+const { createDiffieHellmanGroup } = require("crypto");
 //global variable start
 let sValue = {};
 
@@ -55,7 +56,8 @@ module.exports = {
         .status(404)
         .json({ status: "failure", message: "user not found on database" });
     }
-    const passCheck = bcrypt.compare(password, user.password);
+    const passCheck = await bcrypt.compare(password, user.password);
+    console.log(passCheck)
     if (!passCheck) {
       return res
         .status(401)
@@ -70,6 +72,7 @@ module.exports = {
       user
     });
   },
+
 
   
 

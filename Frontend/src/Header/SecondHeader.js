@@ -1,5 +1,5 @@
 import "../Login-Register/Login-Register.css";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { MDBBadge } from "mdb-react-ui-kit";
 import {
@@ -13,6 +13,7 @@ import { MyData } from "../Main-Component/MyData";
 import axios from "axios";
 
 const SecondHeader = () => {
+  
   const navigate = useNavigate();
   const {
     user,
@@ -29,134 +30,38 @@ const SecondHeader = () => {
   //LSTATUS TRUE BY DEFAULT;
   //CLOSE USESTATE FALSE BY DEFAULT;
   const [state, setState] = useState(false);
-
-  // [--------- const [close,setClose]=useState(false)---------------] for study purpose (moving this to app.js to pass through usecontext);
-
   const handleMenuClick = () => {
     setState(!state);
   };
-
-  // const Lformcheck = async (e) => {
-  //   e.preventDefault();
-  //   const form = document.getElementById("login-form1")
-  //   const email = e.target.lemail.value.trim();
-  //   const password = e.target.lpass.value.trim();
-
-  //   if (email === "" || password === "") {
-  //    return alert("Please enter your email and password.");
-  //   }
-  //   else {
-  //     let account = user.filter((data) => data.email === email && data.password === password)
-  //     const payload={email,password}
-  //     try{
-  //       const response = await axios.post('http://localhost:3000/api/users/login',payload);
-  //       console.log(response)
-  //       if(response.status === 200){
-
-  //       setLogname(account[0].name)
-  //       setLstatus(!lstatus);
-  //       setClose(!close);
-  //       alert("Welcome back");
-  //       setDisplayname(account[0].name);
-  //       console.log(response)
-
-  //     if(account[0].type==="admin"){
-
-  //       navigate("/Admin")
-  //     }
-  //     else{
-  //       navigate('/');
-  //     }
-
-  //     //make it short with ternary
-  //     // e.target.lemail.value="";
-  //     // e.target.lpass.value="";
-  //     form.reset()
-
-  //       }
-
-  //     }
-  //     catch(error){
-  //         console.log("error occured")
-  //         alert(error.response.data.message)
-  //         alert("Invalid email/password");
-  //     }
-
-  //   }
-  // };
-
-  // const Lformcheck = async (e) => {
-  //   e.preventDefault();
-  //   const form = document.getElementById("login-form1");
-  //   const email = e.target.lemail.value.trim();
-  //   const password = e.target.lpass.value.trim();
-
-  //   if (email === "" || password === "") {
-  //     return alert("Please enter your email and password.");
-  //   }
-
-  //   try {
-  //     const payload = { email, password };
-  //     const response = await axios.post('http://localhost:3000/api/users/login', payload);
-
-  //     if (response.status === 200) {
-  //       const userData = JSON.parse(response.data);
-  //       console.log("User data:", userData);
-
-  //       if (userData.type === "admin") {
-  //       } else {
-  //         navigate('/');
-  //       }
-
-  //       form.reset();
-  //     } else if (response.status === 404) {
-  //       alert("User not found in the database.");
-  //     } else if (response.status === 401) {
-  //       alert("Incorrect Password");
-  //     }
-  //   } catch (error) {
-  //     console.log("An error occurred", error);
-  //     if (error.response && error.response.data && error.response.data.message) {
-  //       alert(error.response.data.message);
-  //     } else {
-  //       alert("An error occurred during login. Please try again.");
-  //     }
-  //   }
-  // };
-
-
-
-
   const Lformcheck = async (e) => {
     e.preventDefault();
     const form = document.getElementById("login-form1");
     const email = e.target.lemail.value.trim();
     const password = e.target.lpass.value.trim();
     const emailEnv = process.env.REACT_APP_ADMIN_EMAIL
-
     if (email === "" || password === "") {
       return alert("Please enter your email and password.");
     }
     const payload = { email, password };
-
     const payUrl =( email === emailEnv ?  "http://localhost:8000/api/admin/login" : "http://localhost:8000/api/users/login" )
-
-
     try{
       const response = await axios.post(payUrl,payload);
-  
-      
+      console.log(response )
       if(response.status === 200){
+        const userName = email === emailEnv ? "admin" :response.data.user.name;
         const jwt = response.data.jwt;
         localStorage.setItem('jwtToken',jwt);
+         localStorage.setItem('status',false);
+         localStorage.setItem('name',userName);
+         email === emailEnv ? localStorage.setItem('id',"") : localStorage.setItem('id',response.data.user._id);
+         
 
-        email === emailEnv ?setLogname("admin"):setLogname(response.data.user.name)
-        email === emailEnv ?setDisplayname(""):setDisplayname(response.data.user.name);
-        
-        setLstatus(!lstatus);
-        setClose(!close);
-        
+        //  console.log(userName)
+        //  email === emailEnv ? localStorage.setItem('name',"admin"):
         navigate(email === emailEnv ? "/Admin" : "/");
+         setClose(!close);
+        
+
         form.reset();
       }
       else {
@@ -164,10 +69,22 @@ const SecondHeader = () => {
       }
     }
     catch(error){
-      console.log("user error" + error.message)
-
+      console.log("user error" + error)
     }
   };
+
+
+
+
+  useEffect(()=>{
+    const token = localStorage.getItem('jwtToken');
+    if(token){
+      const displayName = localStorage.getItem('name')
+     const status = localStorage.getItem("status")
+     setDisplayname(displayName)
+      setLstatus(status)
+    }
+  },[])
 
 
 
@@ -192,6 +109,21 @@ const SecondHeader = () => {
     }
   };
   //search function end here
+  const token = localStorage.getItem('jwtToken')
+
+
+    
+     
+    // email === emailEnv ?setLogname("admin"):setLogname(response.data.user.name)
+    // email === emailEnv ?setDisplayname(""):setDisplayname(displayName);
+    // setLstatus(!lstatus);
+   
+
+
+
+  // useEffect(()=>{
+  //   Lformcheck()
+  //     },[token])
 
   return (
     <>
@@ -238,13 +170,7 @@ const SecondHeader = () => {
           </div>
           <div className="brand-right">
             <div className="brand-text">
-              {lstatus ? (
-                <>
-                  <span>Sign up Now</span>
-                  <br />
-                  <span style={{ color: "#ff7035" }}>Get 10,000 Credits</span>
-                </>
-              ) : (
+              {token ?(
                 <>
                   <span style={{ fontWeight: "bold", letterSpacing: ".1px" }}>
                     Hello
@@ -260,6 +186,12 @@ const SecondHeader = () => {
                     😊{displayname}
                   </span>
                 </>
+              ):(
+                <>
+                  <span>Sign up Now</span>
+                  <br />
+                  <span style={{ color: "#ff7035" }}>Get 10,000 Credits</span>
+                </>
               )}
             </div>
 
@@ -268,7 +200,7 @@ const SecondHeader = () => {
                 person
                 <div className="profile-container">
                   <ul className="profile-list">
-                    {lstatus && (
+                    {!token && ( 
                       <>
                         {" "}
                         <li onClick={() => setClose(!close)}>
@@ -302,7 +234,7 @@ const SecondHeader = () => {
                     <li
                       onClick={() => {
                         // lstatus?setClose(!close):setLstatus(!lstatus); if code didnt work remove all onclick code and place this one only here inside onclick
-                        if (lstatus) {
+                        if (!token) {
                           setClose(!close);
                         } else {
                           const confirmLogout = window.confirm(
@@ -311,7 +243,12 @@ const SecondHeader = () => {
 
                           if (confirmLogout) {
                             localStorage.removeItem("jwtToken");
-                            setLstatus(!lstatus);
+                            localStorage.setItem("status",true);
+                            localStorage.removeItem("name");
+                            setLstatus(false);
+                            navigate('/')
+                            
+                            
                           }
                         }
                       }}
@@ -327,7 +264,7 @@ const SecondHeader = () => {
               <span
                 className="material-symbols-outlined"
                 onClick={() => {
-                  lstatus ? setClose(!close) : navigate("/cart");
+                  token ? navigate("/cart"):setClose(!close) ; 
                 }}
               >
                 shopping_cart

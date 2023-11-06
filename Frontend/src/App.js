@@ -44,7 +44,7 @@ function App() {
   const [logname, setLogname] = useState("");
   const [close, setClose] = useState(false);
   const [cart, setCart] = useState([]);
-  const [displayname,setDisplayname]=useState("");
+  const [displayname,setDisplayname]=useState(null);
   const [productfetch,setProductfetch] = useState([]);
   //code to remove header and footer admin dashboard
   const location = useLocation();

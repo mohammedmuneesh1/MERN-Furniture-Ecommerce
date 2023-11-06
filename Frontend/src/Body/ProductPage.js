@@ -33,6 +33,7 @@ const ProductPage = () => {
   const addToCart = async (id)=>{
     const token = localStorage.getItem('jwtToken')
     console.log(token);
+    
     try{
        const response = await axiosInstance.post(`api/admin/${id}/cart`)
     }

@@ -17,12 +17,11 @@ module.exports = {
         { email },
         process.env.ADMIN_ACCESS_TOKEN_SECRET
       );
-      const data = {name:"muneesh"}
+    
       res.status(200).json({
         status: "success",
         message: "successfully logged",
         jwt: token,
-        data
       });
     } else {
       return res.status(404).json({ message: "User not found" });
