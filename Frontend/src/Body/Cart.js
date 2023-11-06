@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   MDBBtn,
   MDBCard,
@@ -14,18 +14,63 @@ import {
 import { MyData } from "../Main-Component/MyData"; // Importing context for data sharing
 import { useNavigate } from "react-router-dom"; // Importing navigation hook
 import { v4 as uuidv4 } from 'uuid'; // Importing UUID library for generating unique identifiers
+import axiosInstance from "../Admin/Axios/axiosInstance";
 
 export default function Cart() {
   // Accessing data from the context
-  const { cart, setCart, user, setUser, displayname } = useContext(MyData);
-
+  const {  user, setUser, displayname } = useContext(MyData);
+   const [cart,setCart] = useState([])
   // Initializing the navigation hook
   const navigate = useNavigate();
  
   // Scroll to the top of the page when the component mounts
+
+  const cartItems = async ()=>{
+    const id = localStorage.getItem('id')
+    try{
+      const response = await axiosInstance.get(`/api/users/${id}/cart`)
+      if(response.status === 200){
+        return setCart(response.data.data) 
+      }
+    }
+      catch(error){
+        console.log(error)
+      }
+  }
+
   useEffect(() => {
+    cartItems();
     window.scrollTo(0, 0);
   }, []);
+
+
+  const removeProduct = async (itemId,itemName) => {
+    const id = localStorage.getItem('id');
+    const confirm = window.confirm(`Are You Sure Want to Remove " ${itemName.toUpperCase()} " from your Cart ? `)
+    if(confirm){
+    try{
+      const response = await axiosInstance.delete(`/api/users/${id}/cart/${itemId}`)
+      console.log(response)
+      if(response.status === 200){
+        return cartItems();
+      }
+    }
+    catch(error){
+      console.log(error.message)
+    }
+  }
+  }
+
+
+
+
+
+
+
+
+
+
+
 
   // Function to increase quantity of a product in the cart
   const qtyplus = (itemId) => {
@@ -50,23 +95,19 @@ export default function Cart() {
   };
 
   // Calculate the total price of items in the cart
-  const totalPrice = cart.length > 0
+  const totalPrice = cart && cart.length > 0
     ? cart.reduce((total, value) => {
         return total + value.price * value.quantity;
       }, 0)
     : 0;
 
   // Function to remove a product from the cart
-  const removeProductcart = (itemId) => {
-    const productafterremove = cart.filter(value => value.id !== itemId);
-    setCart(productafterremove);
-  }
+
 
   // Function to update orders and user profiles when placing an order
   
   const orderupdate = (e) => {
     e.preventDefault();
-  
     if (cart.length !== 0) {
       const Orderdetails = cart.map((value, index) => ({
         Oid: uuidv4(), // Generate a unique order ID
@@ -114,11 +155,11 @@ export default function Cart() {
                         Your products
                       </MDBTypography>
 
-                      {cart.map((item) => (
-                        <div  key={item.id} className="d-flex align-items-center mb-5">
+                      {cart && cart.map((item) => (
+                        <div  key={item._id} className="d-flex align-items-center mb-5">
                           <div className="flex-shrink-0">
                             <MDBCardImage
-                              src={item.src}
+                              src={item.image}
                               fluid
                               style={{ width: "150px" }}
                               alt="Generic placeholder image"
@@ -127,10 +168,10 @@ export default function Cart() {
 
                           <div className="flex-grow-1 ms-3">
                             <span  className="float-end text-black">
-                              <MDBIcon fas icon="times" onClick={()=>removeProductcart(item.id)} />
+                              <MDBIcon fas icon="times" onClick={()=>removeProduct(item._id,item.title)} />
                             </span>
-                            <MDBTypography tag="h5" className="text-primary">
-                              {item.name}
+                            <MDBTypography tag="h4" className="text-primary">
+                              {item.title}
                             </MDBTypography>
                             <MDBTypography
                               tag="h6"
@@ -140,14 +181,14 @@ export default function Cart() {
                             </MDBTypography>
 
                             <div className="d-flex align-items-center">
-                              <p className="fw-bold mb-0 me-5 pe-3">
+                              <p className=" fs-5 fw-bold mb-0 me-5 pe-3">
                                 {item.price}
                               </p>
 
                               <div className="def-number-input number-input safari_only">
                                 <button
                                   className="minus"
-                                  onClick={() => qtyminus(item.id)}
+                                  onClick={() => qtyminus(item._id)}
                                 ></button>
                                 <input
                                   className="quantity fw-bold text-black"
@@ -161,6 +202,7 @@ export default function Cart() {
                                   onClick={() => qtyplus(item.id)}
                                 ></button>
                               </div>
+                              {/* <p>{item.description}</p> */}
                             </div>
                           </div>
                         </div>
@@ -211,7 +253,7 @@ export default function Cart() {
                           label="Card number"
                           type="text"
                           size="lg"
-                          defaultValue="1234 5678 9012 3457"
+             
                         />
 
                         <MDBInput
@@ -219,7 +261,7 @@ export default function Cart() {
                           label="Name on card"
                           type="text"
                           size="lg"
-                          defaultValue="John Smith"
+                   
                         />
 
                         <MDBRow>
@@ -231,7 +273,7 @@ export default function Cart() {
                               size="lg"
                               minLength="7"
                               maxLength="7"
-                              defaultValue="01/22"
+                           
                               placeholder="MM/YYYY"
                             />
                           </MDBCol>
@@ -244,7 +286,7 @@ export default function Cart() {
                               minLength="3"
                               maxLength="3"
                               placeholder="&#9679;&#9679;&#9679;"
-                              defaultValue="&#9679;&#9679;&#9679;"
+                             
                             />
                           </MDBCol>
                         </MDBRow>

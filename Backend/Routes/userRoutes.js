@@ -20,7 +20,7 @@ router
 .get('/:id/cart',tryCatch(userController.showCart))
 .post('/:id/wishlist',tryCatch(userController.wishList))
 .get('/:id/wishlist',tryCatch(userController.showWishlist))
-.delete('/:id/cart',tryCatch(userController.deleteCart))
+.delete('/:id/cart/:productId',tryCatch(userController.deleteCart))
 .delete('/:id/wishlist',tryCatch(userController.deleteWishlist))
 .post('/:id/payment',userController.payment)
 .post('/payment/cancel',userController.cancel)

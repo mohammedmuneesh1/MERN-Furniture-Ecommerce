@@ -39,10 +39,8 @@ const ProductPage = () => {
       const payload= {productId:pId}
     try{
        const response = await axiosInstance.post(`api/users/${id}/cart`,payload)
-        console.log(response)
        if(response.status === 201){
         return alert("Product added to cart")
-      
        }
     }
     catch(error){
@@ -56,7 +54,6 @@ const ProductPage = () => {
   else{
     alert("Please Login Again");
   }
-
   }
 
 

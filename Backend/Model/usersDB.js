@@ -4,7 +4,9 @@ const userSchema = mongoose.Schema({
     name: String,
     email:String,
     password:String,
-    cart:[{type:mongoose.Schema.ObjectId,ref:'products'}],
+    cart:[
+        {
+            productsId:{ type:mongoose.Schema.ObjectId,ref:'products'}, quantity:{type: Number,default: 1}}],
     wishlist:[{type:mongoose.Schema.ObjectId,ref:'products'}],
     orders:[{type:mongoose.Schema.ObjectId,ref:'orders'}]
 })
