@@ -1,65 +1,16 @@
- 
-  updateProduct: async (req, res) => {
-    console.log("working")
-    const { value, error } = joiUpdateProductSchema.validate(req.body);
-    if (error) {
-      console.log(error.message)
-      return res.status(405).json({ message: error.message });
-    }
-    const { productId, title, description, price,category } = value;
-    console.log(productId)
-    const pIdCheck = await productDB.findById(productId); //checking product by its id if product exist
-    if (!pIdCheck) {
-      return res.status(404).json({
-        status: "failure",
-        message: "Product not found in the database. Check the product Id.",
-      });
-    }
-    if(req.body.image){
-      await productDB.findByIdAndUpdate(
-        { _id: productId },
-        {
-          $set: {
-            title,
-            description,
-            price,
-            category,
-            image: req.body.image,
-          },
-        }
-      );
-     
-    }
-    else{
-       await productDB.findByIdAndUpdate(
-        { _id: productId },
-        {
-          $set: {
-            title,
-            description,
-            price,
-            category,
-          },
-        }
-      );
-    }
-    res
-      .status(200)
-      .json({ status: "success", message: "successfully update a product." });
-  },
+deleteCart: async (req, res) => {
+  console.log("working deleteCart")
+  const id = req.params.id;
+  const productsId = req.params.productId
+  if (!productsId) {
+    return res.json({ message: "make sure you entered [ productId ]" });
+  }
+//  await userDB.findByIdAndUpdate({_id:id}, { $pull: { cart: { productsId: productsId } } });
+ await userDB.updateOne({_id:id},{$pull:{cart:{productsId:productsId}}})
 
 
-    
-  const formData = new FormData();
-  formData.append("productId",productId)
-  formData.append("title", title);
-  formData.append("price", price);
-  formData.append("description", description);
-  formData.append("category", category);
-
-
-  formData.append("image", image); // IMAGE IS THE NAME IN SINGLE.UPLOAD("image")
-  formData.append("title", title);
-  formData.append("price", price);
-  formData.append("description", description);
-  formData.append("category", category);
+  res.status(200).json({
+    status: "Success",
+    message: "Successfully removed item from cart",
+  });
+},

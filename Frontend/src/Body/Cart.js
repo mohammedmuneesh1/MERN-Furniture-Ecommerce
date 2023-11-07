@@ -22,16 +22,15 @@ export default function Cart() {
    const [cart,setCart] = useState([])
   // Initializing the navigation hook
   const navigate = useNavigate();
+  const id = localStorage.getItem('id')                        
  
   // Scroll to the top of the page when the component mounts
 
   const cartItems = async ()=>{
-    const id = localStorage.getItem('id')
     try{
       const response = await axiosInstance.get(`/api/users/${id}/cart`)
       // console.log(response);
       if(response.status === 200){
-        console.log(response.data.data);
         return setCart(response.data.data) 
       }
     }
@@ -39,11 +38,7 @@ export default function Cart() {
         console.log(error)
       }
   }
-console.log(cart)
-  useEffect(() => {
-    cartItems();
-    window.scrollTo(0, 0);
-  }, []);
+
 
 
   const removeProduct = async (itemId,itemName) => {
@@ -68,78 +63,47 @@ console.log(cart)
 
 
 
-
-
-
-
-
-
   // Function to increase quantity of a product in the cart
-  const qtyplus = (itemId) => {
-    const cartPlus = cart.map((value) => {
-      if (value.id === parseInt(itemId)) {
-        return { ...value, quantity: value.quantity + 1 };
+  const qtyplus = async (itemId) => {
+    const payload = {operation:"add"}
+    try{
+      const response = await axiosInstance.put(`/api/users/${id}/cart/quantity/${itemId}`,payload)
+      console.log(response)
+      if(response.status === 200){
+       return cartItems();
       }
-      return value;
-    });
-    setCart(cartPlus);
+    }
+    catch(error){
+      console.log(error)
+    }
   };
 
   // Function to decrease quantity of a product in the cart
-  const qtyminus = (itemId) => {
-    const cartMinus = cart.map((value) => {
-      if (value.id === parseInt(itemId) && value.quantity > 1) {
-        return { ...value, quantity: value.quantity - 1 };
+  const qtyminus = async (itemId) => {
+    const payload = {operation:"substract"}
+    try{
+      const response = await axiosInstance.put(`/api/users/${id}/cart/quantity/${itemId}`,payload)
+      console.log(response)
+      if(response.status === 200){
+       return cartItems();
       }
-      return value;
-    });
-    setCart(cartMinus);
+    }
+    catch(error){
+      console.log(error)
+    }
   };
 
   // Calculate the total price of items in the cart
-  const totalPrice =  cart.length > 0
+  const totalPrice =  cart
     ? cart.reduce((total, value) => {
         return total + value.productsId.price * value.quantity;
       }, 0)
     : 0;
-
-  // Function to remove a product from the cart
-
-
-  // Function to update orders and user profiles when placing an order
+    useEffect(() => {
+      cartItems();
+      window.scrollTo(0, 0);
+    }, []);
   
-  const orderupdate = (e) => {
-    e.preventDefault();
-    if (cart.length !== 0) {
-      const Orderdetails = cart.map((value, index) => ({
-        Oid: uuidv4(), // Generate a unique order ID
-        Opname: value.name,
-        Oqty: value.quantity,
-        Opprice: value.price,
-      }));
-    
-      const Profilechk = user.map((value) => {
-        if (value.name === displayname) {
-          return {
-            ...value,
-            order: [...value.order, ...Orderdetails],
-          };
-        }
-        return value;
-      });
-
-      setUser(Profilechk);
-      alert("Order placed Successfully");
-      setCart([]);
-    } else {
-      alert("Cart is empty");
-    }
-  };
-
-  // const tTitle=  cart.map(value=>{
-    //      value.produts
-    // })
-
 
   return (
     <>
@@ -174,7 +138,7 @@ console.log(cart)
 
                           <div className="flex-grow-1 ms-3">
                             <span  className="float-end text-black">
-                              <MDBIcon fas icon="times" onClick={()=>removeProduct(item._id,item.productsId.title)} />
+                              <MDBIcon fas icon="times" onClick={()=>removeProduct(item.productsId._id,item.productsId.title)} />
                             </span>
                             <MDBTypography tag="h4" className="text-primary">
                               {item.productsId.title}
@@ -199,7 +163,7 @@ console.log(cart)
                                 <input
                                   className="quantity fw-bold text-black"
                                   min={1}
-                                  value={item.productsId.quantity}
+                                  value={item.quantity}
                                   type="number"
                                   disabled
                                 />
@@ -253,7 +217,7 @@ console.log(cart)
                         Payment
                       </MDBTypography>
 
-                      <form className="mb-5" onSubmit={orderupdate}>
+                      <form className="mb-5">
                         <MDBInput
                           className="mb-5"
                           label="Card number"

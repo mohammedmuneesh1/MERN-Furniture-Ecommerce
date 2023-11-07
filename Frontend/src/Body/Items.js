@@ -1,4 +1,5 @@
 import {
+  MDBIcon,
   MDBContainer,
   MDBRow,
   MDBCol,
@@ -64,6 +65,7 @@ useEffect(() => {
                 onClick={() => navigate(`/Product/${value._id}`)} // Fix the onClick here
               >
                 <MDBCard className="text-black">
+                <MDBIcon className="heart-icon"  far icon="heart" />
                   <MDBCardImage
                     src={value.image}
                     position="top"

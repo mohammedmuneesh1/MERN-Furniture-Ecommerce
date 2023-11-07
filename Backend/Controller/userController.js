@@ -3,6 +3,7 @@ const userDB = require("../Model/usersDB");
 const productDB = require("../Model/productsDB");
 const orderDB = require("../Model/OrderDB");
 const jwt = require("jsonwebtoken");
+const { ObjectId } = require('mongodb');
 const {
   joiUserRegisterSchema,
   joiUserLoginSchema,
@@ -57,7 +58,7 @@ module.exports = {
         .json({ status: "failure", message: "user not found on database" });
     }
     const passCheck = await bcrypt.compare(password, user.password);
-    console.log(passCheck)
+    // console.log(passCheck)
     if (!passCheck) {
       return res
         .status(401)
@@ -122,34 +123,30 @@ module.exports = {
     if (!checkuser) {
       return res.status(404).json({ message: "User not found." });
     }
+    // console.log(checkuser.cart)
     const { productId } = req.body;
-    if (!productId) {
-      return res.json({
-        status: "Failure",
-        message: `make sure you entered productId:`,
-      });
+    // const itemExistChk = await checkuser.cart.find(value=>value.productsId === productId);
+    const itemExistChk = await userDB.findOne({_id:userId,"cart.productsId":productId})
+    console.log(itemExistChk)
+    if(!itemExistChk){
+        await userDB.updateOne({_id:userId},{$addToSet:{cart:{productsId:productId}}})
+        return res.status(201).json({  status: "success",message: "Successfully added product to cart",});
     }
-    if(checkuser.cart.includes(productId)){
       return res.status(409).json({status:"",message:"Product already in your cart"})
-    }
-    await userDB.updateOne(
-      { _id: userId },
-      {
-        $addToSet: {
-          cart: { productsId: productId}
-        }
-      }
-    );
+    },
+    // }
+    // if(checkuser.cart.includes(productId)){
+    // }
+    // await userDB.updateOne(
+    //   { _id: userId },
+    //   {
+    //     $addToSet: {
+    //       cart: { productsId: productId}
+    //     }
+    //   }
+    // );
+ 
 
-    // await userDB.updateOne({ _id: userId }, { $addToSet: { cart: productId:productId} });
-    // const userWithCart = await userDB.findOne({_id:userId} );
-    // console.log(userWithCart.cart);
-    res.status(201).json({
-      status: "success",
-      message: "Successfully added product to cart",
-    });
-    // res.status(201).json({status:'Success',message:'Successfully added product to cart',cart:userWithCart.cart})
-  },
 
   
   showCart: async (req, res) => {
@@ -170,21 +167,94 @@ module.exports = {
     });
   },
 
-  deleteCart: async (req, res) => {
-    console.log("working deleteCart")
+
+
+  productQuantity:async(req,res)=>{
     const id = req.params.id;
-    const productId = req.params.productId
-        // const { productId } = req.body;
-    //add id check not necessary
-    if (!productId) {
-      return res.json({ message: "make sure you entered [ productId ]" });
-    }
-    await userDB.updateOne({ _id: id }, { $pull: { cart: productId } });
-    res.status(200).json({
-      status: "Success",
-      message: "Successfully removed item from cart",
-    });
+    const itemId = req.params.itemId;
+    const {operation} = req.body;
+   const user = await userDB.findOne({ _id: id, });
+
+if(user){
+   const item = user.cart.find(value => value.id === itemId);
+   const qty = item.quantity
+
+   if(operation === "add"){
+    await userDB.findOneAndUpdate(
+         {
+           "_id": id,
+           "cart._id": itemId
+         },
+         {
+           $inc: {
+             "cart.$.quantity": 1 
+           }
+         },
+       );
+ 
+ 
+       return res.status(200).json({status:"Success",message:"quantity added successfully"})
+     }
+     
+     if(operation === "substract"){
+      if(qty>1){
+        await userDB.findOneAndUpdate(
+          {
+            "_id": id,
+            "cart._id": itemId
+          },
+          {
+            $inc: {
+              "cart.$.quantity": -1 
+            }
+          },
+        );
+        return res.status(200).json({status:"Success",message:"quantity substracted successfully"})
+      }
+}
+}
+else{
+  res.status(404).json({message:"user not found occured"})
+}
+
   },
+  deleteCart: async (req, res) => {
+    const id = req.params.id;
+    const productsId = req.params.productId;
+
+    const user = await userDB.findById(id)
+
+  if(!user){
+    return res.status(404).json({
+      status: "Failure",
+      message: "user not found",
+    });
+  }
+    const result = await userDB.updateOne({_id:id},{$pull:{cart:{productsId:productsId}}},{new:true})
+    res.status(200).json({status:"Success",message:"successfully deleted the data "})
+
+
+
+    // if (!productsId) {
+    //   return res.json({ message: "Make sure you entered [productId]" });
+    // }
+  
+    // // Convert productsId to ObjectId format
+    // const productsIdAsObjectId = new ObjectId(productsId);
+  
+    // // Use the correct path to the "productsId" field in your document
+    // const query = { _id: id, 'cart.productsId': productsIdAsObjectId };
+  
+    // await userDB.updateOne(
+    //   query,
+    //   { $pull: { cart: { productsId: productsIdAsObjectId } } }
+    // );
+  
+    
+  }
+,  
+
+
   wishList: async (req, res) => {
     const id = req.params.id;
     const { productId } = req.body;

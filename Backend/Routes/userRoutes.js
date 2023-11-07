@@ -18,6 +18,7 @@ router
 .get('/products/category/:categoryname',tryCatch(userController.productByCategory))
 .post('/:id/cart',tryCatch(userController.addToCart))
 .get('/:id/cart',tryCatch(userController.showCart))
+.put('/:id/cart/quantity/:itemId',tryCatch(userController.productQuantity))
 .post('/:id/wishlist',tryCatch(userController.wishList))
 .get('/:id/wishlist',tryCatch(userController.showWishlist))
 .delete('/:id/cart/:productId',tryCatch(userController.deleteCart))
