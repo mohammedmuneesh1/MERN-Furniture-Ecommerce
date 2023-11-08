@@ -7,6 +7,8 @@ import {
     MDBCardBody,
     MDBCardImage,
     MDBRipple,
+    MDBIcon
+    
   } from "mdb-react-ui-kit";
   import axiosInstance from '../../Admin/Axios/axiosInstance'
   import { MyData } from '../MyData';
@@ -16,6 +18,10 @@ export default function Plants() {
     const navigate=useNavigate();
   const {item}=useContext(MyData);
 const Psofa=item.filter((value)=>value.category ==="Plant");
+
+const {wishlist,removeToWishlist,addToWishlist} = useContext(MyData)
+
+
 
  const cPlant = async()=>{
   try{
@@ -37,71 +43,122 @@ const Psofa=item.filter((value)=>value.category ==="Plant");
          }, []);
 
 
-  return (
-    <>
-     <MDBContainer fluid className="my-5 text-center">
-        <h4 className="mt-4 mb-5">
-          <strong>Plant</strong>
-        </h4>
-
-        <MDBRow>
-
-
-  {plants.map((value,index) => (
-    
-    <MDBCol xl="3" lg="4" md="6" sm="6" xs="12" className="mb-4"   key={value._id}>
-    <MDBCard className=" card-size m-auto"   key={value._id}    onClick={()=>navigate(`/Product/${value._id}`)} >
-        <MDBRipple
-          rippleColor="light"
-          rippleTag="div"
-          className="bg-image rounded hover-zoom"
+    return (
+      <>
+       <MDBContainer fluid className="my-5 text-center">
+          <h4 className="mt-4 mb-5">
+            <strong>Sofa</strong>
+          </h4>
+  
+          <MDBRow>
+  
+  
+    {plants.length !==0 && plants.map((value,index) => (
+      
+      <MDBCol xl="3" lg="4" md="6" sm="6" xs="12" className="mb-4"   key={value._id}>
+        {wishlist && wishlist.find(wvalue=>wvalue._id === value._id)
+         ?
+        <MDBCard className=" card-size m-auto"   key={value._id}   >
+      <MDBIcon className="heart-icon"  fas icon="heart" style={{color:"red"}}  onClick={()=>removeToWishlist(value._id)}/>
         
-        >
-          <div className="image-container">
-            <MDBCardImage
-              src={value.image}
-              fluid
-              className="w-100 custom-image"
-              alt="Product"
-            />
-          </div>
-          <span>
-            <div className="mask">
-              <div className="d-flex justify-content-start align-items-end h-100">
-                <h5>
-                  <span className="badge bg-primary ms-2">New</span>
-                </h5>
+          <MDBRipple
+            rippleColor="light"
+            rippleTag="div"
+            className="bg-image rounded hover-zoom"
+            onClick={()=>navigate(`/Product/${value._id}`)} 
+          >
+            <div className="image-container">
+              <MDBCardImage
+                src={value.image}
+                fluid
+                className="w-100 custom-image"
+                alt="Product"
+              />
+            </div>
+            <span>
+              <div className="mask">
+                <div className="d-flex justify-content-start align-items-end h-100">
+                  <h5>
+                    <span className="badge bg-primary ms-2">New</span>
+                  </h5>
+                </div>
               </div>
-            </div>
-            <div className="hover-overlay">
-              <div
-                className="mask"
-                style={{ backgroundColor: "rgba(251, 251, 251, 0.15)" }}
-              ></div>
-            </div>
+              <div className="hover-overlay">
+                <div
+                  className="mask"
+                  style={{ backgroundColor: "rgba(251, 251, 251, 0.15)" }}
+                ></div>
+              </div>
+              </span>
+          </MDBRipple>
+          <MDBCardBody className="custom-card-body p-1 p-md-3 p-lg-4">
+            <span  className="text-reset">
+              <h5 className="card-title mb-2 mb-md-3 mb-lg-3 h5-responsive">
+              {value.title}
+              </h5>
             </span>
-        </MDBRipple>
-        <MDBCardBody className="custom-card-body p-1 p-md-3 p-lg-4">
-          <span  className="text-reset">
-            <h5 className="card-title mb-2 mb-md-3 mb-lg-3 h5-responsive">
-            {value.title}
-            </h5>
-          </span>
-          <span  className="text-reset">
-            <p className="mb-2 mb-lg-4 text-muted card-category " >{value.category}</p>
-          </span>
-          <h6 className="mb-2 card-price"><b>₹</b>{value.price}</h6>
-        </MDBCardBody>
-      </MDBCard>
-
-    </MDBCol>
-
-
-
-  ))}
-
-        </MDBRow>
-      </MDBContainer>
-    </>
-  )
-}
+            <span  className="text-reset">
+              <p className="mb-2 mb-lg-4 text-muted card-category " >{value.category}</p>
+            </span>
+            <h6 className="mb-2 card-price"><b>₹</b>{value.price}</h6>
+          </MDBCardBody>
+        </MDBCard>
+      :<MDBCard className=" card-size m-auto"   key={value._id}   >
+      <MDBIcon className="heart-icon"  fas icon="heart"   onClick={(e)=>{ e.preventDefault(); addToWishlist(value._id)}}/>
+        
+          <MDBRipple
+            rippleColor="light"
+            rippleTag="div"
+            className="bg-image rounded hover-zoom"
+            onClick={()=>navigate(`/Product/${value._id}`)} 
+          >
+            <div className="image-container">
+              <MDBCardImage
+                src={value.image}
+                fluid
+                className="w-100 custom-image"
+                alt="Product"
+              />
+            </div>
+            <span>
+              <div className="mask">
+                <div className="d-flex justify-content-start align-items-end h-100">
+                  <h5>
+                    <span className="badge bg-primary ms-2">New</span>
+                  </h5>
+                </div>
+              </div>
+              <div className="hover-overlay">
+                <div
+                  className="mask"
+                  style={{ backgroundColor: "rgba(251, 251, 251, 0.15)" }}
+                ></div>
+              </div>
+              </span>
+          </MDBRipple>
+          <MDBCardBody className="custom-card-body p-1 p-md-3 p-lg-4">
+            <span  className="text-reset">
+              <h5 className="card-title mb-2 mb-md-3 mb-lg-3 h5-responsive">
+              {value.title}
+              </h5>
+            </span>
+            <span  className="text-reset">
+              <p className="mb-2 mb-lg-4 text-muted card-category " >{value.category}</p>
+            </span>
+            <h6 className="mb-2 card-price"><b>₹</b>{value.price}</h6>
+          </MDBCardBody>
+        </MDBCard>
+   }
+      
+      </MDBCol>
+  
+  
+  
+    ))}
+  
+          </MDBRow>
+        </MDBContainer>
+      </>
+    )
+  }
+  

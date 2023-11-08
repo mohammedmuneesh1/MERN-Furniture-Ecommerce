@@ -320,11 +320,13 @@ else{
   payment: async (req, res) => {
     const id = req.params.id;
     uid = id; //for passing as global variable
-    const user = await userDB.findOne({ _id: id }).populate("cart"); //user with cart
+    const user = await userDB.findOne({ _id: id }).populate("cart.productsId"); //user with cart
     if (!user) {
       return res.status(404).json({ message: "user not found " });
     }
     const cartItems = user.cart;
+  
+
     if (cartItems.length === 0) {
       return res.status(400).json({ message: "Your cart is empty" });
     }
@@ -334,14 +336,18 @@ else{
         price_data: {
           currency: "inr",
           product_data: {
-            name: item.title,
-            description: item.description,
+            images:[item.productsId.image],
+            name: item.productsId.title,
+            // description: item.productsId.description,
           },
-          unit_amount: Math.round(item.price * 100), // when item.price only given ,error occur, why ? check its reason . why multiply 100
+          unit_amount: Math.round(item.productsId.price * 100), // when item.price only given ,error occur, why ? check its reason . why multiply 100
         },
-        quantity: 1,
+        quantity: item.quantity,
       };
     });
+
+    // console.log(lineItems);
+
     //declaring session as global variable
 
     session = await stripe.checkout.sessions.create({
@@ -378,7 +384,7 @@ else{
     const order = await orderDB.create({
       userid: id,
       products: cartItems.map(
-        (value) => new mongoose.Types.ObjectId(value._id)
+        (value) => new mongoose.Types.ObjectId(value.productsId)
       ), // we get product id in the cart
       order_id: session.id,
       shipment:"pending",

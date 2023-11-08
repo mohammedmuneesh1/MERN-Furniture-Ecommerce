@@ -188,12 +188,16 @@ module.exports = {
   },
 
   orderDetails: async (req, res) => {
-    const order = await OrderDB.find().populate("products")
+
+    const order = await OrderDB.find().populate("products");
+    console.log(order)
     if (order.length === 0) {
       return res
         .status(204)
         .json({ status: "Success", message: "No content available." });
     }
+
+    console.log(order)
     res.status(200).json({
       status: "Success",
       message: "Successfully fetched order details",

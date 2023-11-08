@@ -18,7 +18,7 @@ import axiosInstance from "../Admin/Axios/axiosInstance";
 
 export default function Cart() {
   // Accessing data from the context
-  const {  user, setUser, displayname } = useContext(MyData);
+  const {  user, setUser, displayname,userId } = useContext(MyData);
    const [cart,setCart] = useState([])
   // Initializing the navigation hook
   const navigate = useNavigate();
@@ -99,6 +99,32 @@ export default function Cart() {
         return total + value.productsId.price * value.quantity;
       }, 0)
     : 0;
+
+
+const paymentFn = async ()=>{
+  const id = userId
+
+  try{
+    const response = await axiosInstance.post(`/api/users/${id}/payment`)
+    if(response.status === 200){
+      console.log(response.data)
+      const confirmation = window.confirm("you will be directed into the payment page1")
+      if(confirmation){
+        window.location.href =response.data.url;
+
+      }
+    }
+
+  }
+  catch(error){
+    console.log(error)
+  }
+}
+
+
+
+
+
     useEffect(() => {
       cartItems();
       window.scrollTo(0, 0);
@@ -217,7 +243,7 @@ export default function Cart() {
                         Payment
                       </MDBTypography>
 
-                      <form className="mb-5">
+                     
                         <MDBInput
                           className="mb-5"
                           label="Card number"
@@ -267,11 +293,15 @@ export default function Cart() {
                           <a href="#!"> obcaecati sapiente</a>.
                         </p>
 
-                        <MDBBtn block size="lg" type="submit">
+                        <MDBBtn block size="lg" onClick={()=>paymentFn()}>
                           Buy now
                         </MDBBtn>
 
-                        <MDBTypography
+                    
+                  
+                    </MDBCol>
+                  </MDBRow>
+                  <MDBTypography
                           tag="h5"
                           className="fw-bold mb-5"
                           style={{ position: "absolute", bottom: "0" }}
@@ -281,13 +311,12 @@ export default function Cart() {
                             Back to shopping
                           </span>
                         </MDBTypography>
-                      </form>
-                    </MDBCol>
-                  </MDBRow>
                 </MDBCardBody>
               </MDBCard>
+              
             </MDBCol>
           </MDBRow>
+       
         </MDBContainer>
       </section>
     </>

@@ -15,9 +15,10 @@ export default function OrderDetails() {
 const fetchOrder = async()=>{
   try{
     const response = await axiosInstance.get(`/api/admin/order/${id}`)  
+    console.log(response)
     if(response.status === 200){
       setOrder(response.data.data);
-      console.log(order)
+      console.log(response)
     }
   }
   catch(error){

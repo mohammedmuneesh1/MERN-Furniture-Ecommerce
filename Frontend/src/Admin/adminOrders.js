@@ -3,39 +3,38 @@ import { MDBTable, MDBTableHead, MDBTableBody, MDBBtn } from "mdb-react-ui-kit";
 import axiosInstance from "./Axios/axiosInstance";
 
 export default function AdminOrders() {
+  useEffect(() => {
+    orderDetails();
+  }, []);
   const [order, setOrder] = useState([]);
 
   const orderDetails = async () => {
     try {
       const response = await axiosInstance.get("/api/admin/orders");
-
       if (response.status === 200) {
-        setOrder(
-          response.data.order.filter((value) => value.shipment === "pending")
-        );
+        setOrder(response.data.order.filter((value) => value.shipment === "pending"));
       }
     } catch (error) {
       console.log(error.message);
     }
   };
 
-  const orderConfirm = async(id) => {
-    const confirm = window.confirm("sure you are confirming order")
-    if(confirm){
-    try {
-      const response = await axiosInstance.get(`/api/admin/order/confirm/${id}`)
-      
-      if(response.status === 200) {return orderDetails()}
+  const orderConfirm = async (id) => {
+    const confirm = window.confirm("Are you sure you want to confirm this order?");
+    if (confirm) {
+      try {
+        const response = await axiosInstance.get(`/api/admin/order/confirm/${id}`);
 
-    } catch (error) {
-      console.log(error.message);
+        if (response.status === 200) {
+          orderDetails(); // Refresh the order list after confirming
+        }
+      } catch (error) {
+        console.log(error.message);
+      }
     }
-  }
-  }
+  };
 
-  useEffect(() => {
-    orderDetails();
-  }, []);
+ 
 
   return (
     <div className="a-body">
@@ -70,11 +69,8 @@ export default function AdminOrders() {
                       <td>{pvalue.price}</td>
                       <td>PENDING</td>
                       {pindex === 0 ? (
-                        <th rowSpan={value.products.length}>
-                          {value.total_amount}
-                        </th>
+                        <th rowSpan={value.products.length}>{value.total_amount}</th>
                       ) : null}
-
                       {pindex === 0 ? (
                         <th rowSpan={value.products.length}>
                           {value.shipment === "pending" ? (
@@ -98,10 +94,13 @@ export default function AdminOrders() {
                           )}
                         </th>
                       ) : null}
-
                       {pindex === 0 ? (
                         <th rowSpan={value.products.length}>
-                          <MDBBtn className="me-1" color="danger" onClick={()=>orderConfirm(value._id)}>
+                          <MDBBtn
+                            className="me-1"
+                            color="danger"
+                            onClick={() => orderConfirm(value._id)}
+                          >
                             CONFIRM ORDER
                           </MDBBtn>
                         </th>
@@ -113,7 +112,7 @@ export default function AdminOrders() {
           ) : (
             <tr>
               <th colSpan="5" className="text-center">
-                No New  Order Yet...
+                No New Orders Yet...
               </th>
             </tr>
           )}
@@ -122,4 +121,3 @@ export default function AdminOrders() {
     </div>
   );
 }
-

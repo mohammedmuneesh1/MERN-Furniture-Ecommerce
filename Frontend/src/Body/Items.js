@@ -15,18 +15,15 @@ import { useNavigate } from "react-router-dom";
 import axiosInstance from "../Admin/Axios/axiosInstance";
 const Items = () => {
   const navigate = useNavigate();
-  const { item,token,userId,setClose,close,     wishlist,
+  const { item,token,userId,setClose,close,     
+    wishlist,
     setWishlist,
     addToWishlist,
-    removeToWishlist ,displayProducts,products,setProducts} = useContext(MyData);
+    removeToWishlist ,displayProducts,products,setProducts,handlePrice} = useContext(MyData);
   
 
 
 
-  const handlePrice = (price) => {
-    const formattedPrice = Number(price).toLocaleString("en-IN"); // 'en-IN' for the Indian numbering system (e.g., 1,23,456.00)
-    return "₹" + formattedPrice;
-  };
 
   return (
     <>

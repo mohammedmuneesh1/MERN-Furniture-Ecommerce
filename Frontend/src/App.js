@@ -39,6 +39,8 @@ import ProductAddPage from "./Admin/ProductAddPage";
 import OrderDetails from "./Admin/OrderDetails";
 import axiosInstance from "./Admin/Axios/axiosInstance";
 function App() {
+
+  
   const [item, setItem] = useState(product);
   const [user, setUser] = useState(UserData);
   const [lstatus, setLstatus] = useState(true);
@@ -59,7 +61,7 @@ function App() {
   
   const token = localStorage.getItem('jwtToken')
   const userId = localStorage.getItem('id');
-
+//  ALL THE PRODUCTS FETCHING   
   const [products,setProducts] =useState();
   const displayProducts = async () => {
     try {
@@ -74,12 +76,9 @@ function App() {
   };
 
   
-  useEffect(() => {
-    displayProducts();
-  },);
 
 
-
+//ALL THE PRODUCTS FETCHING END
 
 
 
@@ -127,7 +126,6 @@ const addToWishlist = async(pId)=>{
   }
   
 const removeToWishlist = async(pId)=>{
-  console.log("first")
   if(token){
     const id = userId
     try{
@@ -151,12 +149,28 @@ const removeToWishlist = async(pId)=>{
 
 
 
+//CODE FOR HANDLING PRICE SYMBOLS [,]
+
+
+const handlePrice = (price) => {
+  const formattedPrice = Number(price).toLocaleString("en-IN"); // 'en-IN' for the Indian numbering system (e.g., 1,23,456.00)
+  return "₹" + formattedPrice;
+};
+
+
+//CODE FOR HANDLING PRICE END HERE
 
 
 
 
 
+useEffect(() => {
+  displayProducts();
 
+  if (!location.pathname.startsWith("/Admin")) {
+    wishlistFn();
+  }
+},);
 
 
   return (
@@ -185,7 +199,8 @@ const removeToWishlist = async(pId)=>{
           setProducts,
           setWishlist,
           addToWishlist,
-          removeToWishlist
+          removeToWishlist,
+          handlePrice
         }}
       >
         { !HeadFoot && <Header />}
