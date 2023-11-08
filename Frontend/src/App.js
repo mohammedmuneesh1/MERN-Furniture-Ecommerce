@@ -49,15 +49,16 @@ function App() {
   //code to remove header and footer admin dashboard
   const location = useLocation();
   const HeadFoot = location.pathname.startsWith("/Admin");
-   //code for admin to delete the product(admin page)
-   const removeItem=(ItemIndex)=>{
+  //code for admin to delete the product(admin page)
+  const removeItem=(ItemIndex)=>{
     const UpdateProduct=[...item];
     UpdateProduct.splice(ItemIndex,1);
     setItem(UpdateProduct);
+  }
+  
+  const token = localStorage.getItem('jwtToken')
+  const userId = localStorage.getItem('id');
 
-    }
-
-    
   return (
     <>
       <MyData.Provider
@@ -77,7 +78,8 @@ function App() {
           removeItem,
           displayname,
           setDisplayname,
-
+          token,
+          userId
         }}
       >
         { !HeadFoot && <Header />}

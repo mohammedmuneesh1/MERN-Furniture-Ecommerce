@@ -282,21 +282,39 @@ else{
 
   showWishlist: async (req, res) => {
     const id = req.params.id;
-    console.log(id);
-    const products = await userDB.findOne({ _id: id }).populate("wishlist");
-    res.status(400).json({ status: "Success", wishlist: products.wishlist });
+    const user = await userDB.findOne({_id:id});
+    if(user){
+
+      const products = await userDB.findOne({ _id: id }).populate("wishlist");
+    return  res.status(200).json({ status: "Success", wishlist: products.wishlist });
+    }
+    res.status(404).json({status:"Failure",message:"User not found."})
+
   },
   deleteWishlist: async (req, res) => {
+    console.log("delete wishlist working")
     const id = req.params.id;
-    const { productId } = req.body;
+    const  productId  = req.params.pId;
     if (!productId) {
       return res.status(404).json({
         status: "failure",
         message: "make sure you entered [ productId ] ",
       });
     }
-    await userDB.updateOne({ _id: id }, { $pull: { wishlist: productId } });
-    res.status(200).json({ status: "Successfully removed from wishlist" });
+     
+    const productChk = await productDB.findOne({_id:productId})
+    console.log(productChk)
+    if(productChk){
+
+      await userDB.updateOne({ _id: id }, { $pull: { wishlist: productId } });
+      return res.status(200).json({ status: "Successfully removed from wishlist" });
+    }
+    else{
+      return res.status(404).json({status:"Failure", message:"productId matching product not found on database!."})
+    }
+
+
+   
   },
 
   payment: async (req, res) => {
@@ -411,6 +429,7 @@ else{
     if (!uOrder || uOrder.length === 0) {
       return res.status(200).json({ message: "you have no orders to show" });
     }
+
     const orderProductDetails = await orderDB
       .find({ _id: { $in: uOrder } })
       .populate("products");

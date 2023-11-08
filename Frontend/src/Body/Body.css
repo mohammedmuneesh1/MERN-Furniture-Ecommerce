@@ -170,3 +170,21 @@
     height: auto;
   }
 }
+
+
+
+.heart-icon{
+  position: absolute;
+  display:block;
+  right:20px;
+  top:15px;
+  font-size: 1.5rem;
+  transition:LL 0.25 ease;
+  color: rgba(46, 9, 9, 0.5);
+  z-index:1;
+
+
+}
+.heart-icon:hover{
+  color:red;
+}
