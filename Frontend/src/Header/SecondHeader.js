@@ -260,7 +260,7 @@ const SecondHeader = () => {
               </span>
 
               <span className="material-symbols-outlined">notifications</span>
-              <span className="material-symbols-outlined">favorite</span>
+              <span className="material-symbols-outlined" onClick={()=>navigate('/Wishlist')}>favorite</span>
               <span
                 className="material-symbols-outlined"
                 onClick={() => {

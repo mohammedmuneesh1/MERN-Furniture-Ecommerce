@@ -25,6 +25,7 @@ import Auser from "./Admin/Auser";
 import AallProduct from "./Admin/AallProduct";
 import AdminRevenue from "./Admin/adminRevenue";
 import AdminOrders from "./Admin/adminOrders"
+import Wishlist from "./Body/wishlist";
 
 // P-TYPE importing 
 import Asofa from "./Admin/P-TYPE/Asofa";
@@ -59,6 +60,105 @@ function App() {
   const token = localStorage.getItem('jwtToken')
   const userId = localStorage.getItem('id');
 
+  const [products,setProducts] =useState();
+  const displayProducts = async () => {
+    try {
+      const response = await axiosInstance.get('/api/admin/products');
+     
+      if (response.status === 200) {
+        setProducts(response.data.data);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  
+  useEffect(() => {
+    displayProducts();
+  },);
+
+
+
+
+
+
+
+  //CODE FOR WISHLIST 
+  const [wishlist,setWishlist]=useState([]);
+  const wishlistFn =async ()=>{
+    if(token){
+      const id = userId
+      try{
+        const response = await axiosInstance.get(`/api/users/${id}/wishlist`);
+        if(response.status === 200){
+          return setWishlist(response.data.wishlist)
+        }
+      }
+      catch(error){
+        console.log(error)
+      }
+    }
+  }
+
+
+
+
+const addToWishlist = async(pId)=>{
+  if(token){
+    const id = userId
+    const payload = {productId:pId}
+    try{
+   const response = await axiosInstance.post(`/api/users/${id}/wishlist`,payload)
+   if(response.status === 200){
+    wishlistFn();
+   }
+    }
+    catch(error){
+      if(error.response.status === 409){
+        alert("The Product Already in your cart. ")
+      }
+    }
+  }
+  else{
+    setClose(!close)
+  }
+  
+  }
+  
+const removeToWishlist = async(pId)=>{
+  console.log("first")
+  if(token){
+    const id = userId
+    try{
+   const response = await axiosInstance.delete(`/api/users/${id}/wishlist/${pId}`)
+   if(response.status === 200){
+    wishlistFn();
+   }
+    }
+    catch(error){
+      if(error.response.status === 409){
+        alert(error.response.message);
+      }
+    }
+  }
+  else{
+    setClose(!close)
+  }
+  
+  }
+
+
+
+
+
+
+
+
+
+
+
+
   return (
     <>
       <MyData.Provider
@@ -79,7 +179,13 @@ function App() {
           displayname,
           setDisplayname,
           token,
-          userId
+          userId,
+          wishlist,
+          products,
+          setProducts,
+          setWishlist,
+          addToWishlist,
+          removeToWishlist
         }}
       >
         { !HeadFoot && <Header />}
@@ -94,6 +200,8 @@ function App() {
   <Route path="/Plant" element={<Plants />} />
   <Route path="/cart" element={<Cart />} />
   <Route path="/Product/:id" element={<ProductPage />} />
+  <Route path="/Wishlist" element={<Wishlist />} />
+  
 
 
   <Route path="/Admin" element={<AdminHome />}>

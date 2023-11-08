@@ -15,100 +15,11 @@ import { useNavigate } from "react-router-dom";
 import axiosInstance from "../Admin/Axios/axiosInstance";
 const Items = () => {
   const navigate = useNavigate();
-  const { item,token,userId,setClose,close} = useContext(MyData);
-  const disP = item.slice(0, 8); // to display the first 8 products only
-  const [products,setProducts] =useState();
-  const [wishlist,setWishlist]=useState([]);
-
-
-  const wishlistFn =async ()=>{
-    if(token){
-      const id = userId
-      try{
-        const response = await axiosInstance.get(`/api/users/${id}/wishlist`);
-        if(response.status === 200){
-          return setWishlist(response.data.wishlist)
-        }
-      }
-      catch(error){
-        console.log(error)
-      }
-    }
-  }
-
-const displayProducts = async () => {
-  try {
-    const response = await axiosInstance.get('/api/admin/products');
-   
-    if (response.status === 200) {
-      setProducts(response.data.data);
-    }
-  } catch (error) {
-    console.log(error.message);
-  }
-};
-
-
-
-const addToWishlist = async(pId)=>{
-  if(token){
-    const id = userId
-    const payload = {productId:pId}
-    try{
-   const response = await axiosInstance.post(`/api/users/${id}/wishlist`,payload)
-   if(response.status === 200){
-    wishlistFn();
-   }
-    }
-    catch(error){
-      if(error.response.status === 409){
-        alert("The Product Already in your cart. ")
-      }
-    }
-  }
-  else{
-    setClose(!close)
-  }
+  const { item,token,userId,setClose,close,     wishlist,
+    setWishlist,
+    addToWishlist,
+    removeToWishlist ,displayProducts,products,setProducts} = useContext(MyData);
   
-  }
-  
-const removeToWishlist = async(pId)=>{
-  console.log("first")
-  if(token){
-    const id = userId
-    try{
-   const response = await axiosInstance.delete(`/api/users/${id}/wishlist/${pId}`)
-   console.log(response)
-   if(response.status === 200){
-    wishlistFn();
-    
-   }
-    }
-    catch(error){
-      if(error.response.status === 409){
-        alert("The Product Already in your cart. ")
-      }
-    }
-  }
-  else{
-    setClose(!close)
-  }
-  
-  }
-
-
-
-
-
-
-
-  useEffect(() => {
-    displayProducts();
-    wishlistFn();
-  }, []);
-  
-  
-
 
 
 
@@ -136,7 +47,7 @@ const removeToWishlist = async(pId)=>{
                 key={value._id}
                  // Fix the onClick here
               >
-                {wishlist && wishlist.find(wvalue=>wvalue._id === value._id )?
+                { wishlist.find(wvalue=>wvalue._id === value._id )?
                 <>
                 <MDBCard className="text-black">
                 <MDBIcon className="heart-icon"  fas icon="heart" style={{color:"red"}}  onClick={()=>removeToWishlist(value._id)}/>
