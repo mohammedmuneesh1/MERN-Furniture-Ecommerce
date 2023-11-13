@@ -56,11 +56,11 @@ const SecondHeader = () => {
          email === emailEnv ? localStorage.setItem('id',"") : localStorage.setItem('id',response.data.user._id);
         //  console.log(userName)
         //  email === emailEnv ? localStorage.setItem('name',"admin"):
+        navigate(email === emailEnv ? "/Admin" : "/");
+        setClose(!close);
+        form.reset();
         window.location.reload();
         toast.success('Successfully toasted!')
-        navigate(email === emailEnv ? "/Admin" : "/");
-         setClose(!close);
-        form.reset();
       }
       else {
         alert("Login failed. Please check your credentials.");
@@ -108,21 +108,6 @@ const SecondHeader = () => {
   };
   //search function end here
   const token = localStorage.getItem('jwtToken')
-
-
-    
-     
-    // email === emailEnv ?setLogname("admin"):setLogname(response.data.user.name)
-    // email === emailEnv ?setDisplayname(""):setDisplayname(displayName);
-    // setLstatus(!lstatus);
-   
-
-
-
-  // useEffect(()=>{
-  //   Lformcheck()
-  //     },[token])
-
   return (
     <>
       <div className="secondheader-main">
@@ -161,7 +146,10 @@ const SecondHeader = () => {
                 fontFamily: "serif",
                 letterSpacing: "3px",
               }}
-              onClick={() => navigate("/")}
+              onClick={() => {
+                navigate("/")
+              window.location.reload()
+              }}
             >
               Earthly
             </h1>
@@ -258,7 +246,14 @@ const SecondHeader = () => {
               </span>
 
               <span className="material-symbols-outlined">notifications</span>
-              <span className="material-symbols-outlined" onClick={()=>navigate('/Wishlist')}>favorite</span>
+              <span className="material-symbols-outlined" onClick={()=>{
+                if(token){
+                  navigate('/Wishlist')
+                }
+                else{
+                  setClose(!close)
+                }
+                }}>favorite</span>
               <span
                 className="material-symbols-outlined"
                 onClick={() => {

@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { MyData } from "../Main-Component/MyData";
 import { MDBBtn } from "mdb-react-ui-kit";
 import axiosInstance from "../Admin/Axios/axiosInstance";
+import toast from "react-hot-toast"
 
 
 const ProductPage = () => {
@@ -40,12 +41,13 @@ const ProductPage = () => {
     try{
        const response = await axiosInstance.post(`api/users/${id}/cart`,payload)
        if(response.status === 201){
-        return alert("Product added to cart")
+        return toast.success("Product added to cart")
        }
     }
     catch(error){
        if (error.response.status === 409){
-        return alert("product already in your cart")
+        // return alert("product already in your cart")
+        navigate('/cart')
        }
       console.log(error)
 

@@ -4,25 +4,29 @@ import axiosInstance from "../Admin/Axios/axiosInstance";
 
 export default function PaymentResult(){
      const navigate= useNavigate();
-
-     useEffect(()=>{
-        setTimeout(async () => {
+     useEffect(() => {
+        let isMounted = true;
+        const fetchData = async () => {
             try {
                 const response = await axiosInstance.get('api/users/payment/success');
-                console.log(response);
-                if(response.status === 200){
+                // console.log(response);
+                if (isMounted && response.status === 200) {
                     navigate('/');
                 }
             } catch (error) {
-                // alert("error occured on payment success")
                 console.log(error);
             }
-            
-        }, 3000);
-
-     },[]);
-
+        };
+        const timeoutId = setTimeout(fetchData, 3000);
+        return () => {
+            isMounted = false;
+            clearTimeout(timeoutId);
+        };
+    }, []);
   
+
+
+
       
     return(
         <>

@@ -7,7 +7,7 @@ const trycatchmiddleware = (trycatch) => {
             res.status(500).json({
                 status: "failure",
                 message: "error",
-                error_message: error.message,
+                error_message: error.message, 
             });
         }
     };

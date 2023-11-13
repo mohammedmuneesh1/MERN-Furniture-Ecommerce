@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { MyData } from "../Main-Component/MyData";
 import {
   MDBIcon,
@@ -15,6 +15,12 @@ import { useNavigate } from "react-router-dom";
 export default function Wishlist() {
   const { wishlist, removeToWishlist, addToWishlist, handlePrice } = useContext(MyData);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    
+    window.scrollTo(0, 0);
+
+  }, []);
 
   return (
     <>

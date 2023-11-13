@@ -1,3 +1,4 @@
+
 import React, { useContext, useEffect, useState } from "react";
 import axiosInstance from "./Axios/axiosInstance";
 import { useNavigate } from "react-router-dom";
@@ -83,9 +84,8 @@ export default function AdminBody() {
     order();
     newUsers();
     productDetails();
-  }, []);
+  },[]);
 
-  data.productDetails.map((value) => {});
 
   return (
     <div className="a-body">
