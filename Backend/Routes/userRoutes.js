@@ -10,9 +10,9 @@ router
 .post('/register',tryCatch(userController.userRegister))
 .post('/login',tryCatch(userController.login))
 
-.get('/payment/success',userController.success)
 .post('/app/settings/:id',tryCatch(userController.appSettings))
 .use(verifyToken)
+.get('/payment/success',userController.success)
 .get('/products',tryCatch(userController.products))
 .get('/products/:id',tryCatch(userController.productById))
 .get('/products/category/:categoryname',tryCatch(userController.productByCategory))

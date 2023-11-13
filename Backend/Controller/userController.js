@@ -354,7 +354,7 @@ else{
       payment_method_types: ["card"], //, 'apple_pay', 'google_pay', 'alipay',card
       line_items: lineItems,
       mode: "payment",
-      success_url: `http://localhost:8000/api/users/payment/success`, // Replace with your success URL
+      success_url: `http://localhost:3000/order/payment`, // Replace with your success URL
       cancel_url: "http://localhost:8000/api/users/payment/cancel", // Replace with your cancel URL
     });
 

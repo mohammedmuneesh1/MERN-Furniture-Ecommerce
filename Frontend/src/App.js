@@ -1,5 +1,6 @@
 import "./App.css";
 import { MyData } from "./Main-Component/MyData";
+import toast,{Toaster} from "react-hot-toast";
 import Header from "./Header/Header";
 import Register from "./Login-Register/Register";
 import Footer from "./Footer/Footer";
@@ -38,6 +39,7 @@ import ProductEditPage from "./Admin/ProductEditPage";
 import ProductAddPage from "./Admin/ProductAddPage";
 import OrderDetails from "./Admin/OrderDetails";
 import axiosInstance from "./Admin/Axios/axiosInstance";
+import PaymentResult from "./Body/paymentResult";
 function App() {
 
   
@@ -203,6 +205,7 @@ useEffect(() => {
           handlePrice
         }}
       >
+        <Toaster/>
         { !HeadFoot && <Header />}
         <Routes>
   <Route path="/" element={<Main />} />
@@ -216,6 +219,7 @@ useEffect(() => {
   <Route path="/cart" element={<Cart />} />
   <Route path="/Product/:id" element={<ProductPage />} />
   <Route path="/Wishlist" element={<Wishlist />} />
+  <Route path="/order/payment" element ={<PaymentResult/>} />
   
 
 

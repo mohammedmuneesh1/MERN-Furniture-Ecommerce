@@ -87,6 +87,9 @@ export default function AdminAside() {
                 if (confirmLogout) {
                   setLstatus(!lstatus);
                   localStorage.removeItem("jwtToken");
+                  localStorage.removeItem('status');
+                  localStorage.removeItem('id');
+                  localStorage.removeItem('name')
                 }
               }}
             >

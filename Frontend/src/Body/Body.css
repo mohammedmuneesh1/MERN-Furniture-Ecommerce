@@ -188,3 +188,12 @@
 .heart-icon:hover{
   color:red;
 }
+
+.payment-success{
+  max-width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  background: rgb(8, 183, 8);
+  margin-bottom: 5rem;
+}

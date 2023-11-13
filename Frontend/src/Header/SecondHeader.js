@@ -2,6 +2,7 @@ import "../Login-Register/Login-Register.css";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { MDBBadge } from "mdb-react-ui-kit";
+import toast from "react-hot-toast"
 import {
   MDBBtn,
   MDBContainer,
@@ -53,14 +54,12 @@ const SecondHeader = () => {
          localStorage.setItem('status',false);
          localStorage.setItem('name',userName);
          email === emailEnv ? localStorage.setItem('id',"") : localStorage.setItem('id',response.data.user._id);
-         
-
         //  console.log(userName)
         //  email === emailEnv ? localStorage.setItem('name',"admin"):
+        window.location.reload();
+        toast.success('Successfully toasted!')
         navigate(email === emailEnv ? "/Admin" : "/");
          setClose(!close);
-        
-
         form.reset();
       }
       else {
