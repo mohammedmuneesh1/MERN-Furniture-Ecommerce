@@ -4,7 +4,7 @@ import { MyData } from "../Main-Component/MyData";
 import { useNavigate } from "react-router-dom";
 import toast from 'react-hot-toast'
 import axios from 'axios'
-
+import Swal from 'sweetalert2'
 import { useEffect } from "react";
 import axiosInstance from "./Axios/axiosInstance";
 
@@ -42,28 +42,40 @@ useEffect(()=>{
 
 
 
-const deleteProduct = async(id)=>{
-  const confirmDeletion = window.confirm( "Are you sure you want to delete the product?" );
-  
- if(confirmDeletion){
-  try{
-   const response = await axiosInstance.delete(`/api/admin/products/${id}`)
-  if(response.status === 200)
-  {
-    toast.success("Product deleted successfully.")
-    fetchData()
+const deleteProduct = async (id) => {
+  Swal.fire({
+    title: "Are you sure?",
+    text: "You won't be able to revert this!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes, delete it!",
+  }).then(async (result) => {
+    if (result.isConfirmed) {
+      try {
+        const response = await axiosInstance.delete(`/api/admin/products/${id}`);
+        if (response.status === 200) {
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your file has been deleted.",
+            icon: "success",
+          });
+          fetchData(); // Assuming fetchData is a function that fetches updated data
+        }
+      } catch (error) {
+        console.log("error occurred: " + error.message);
+        // Handle error as needed
+        Swal.fire({
+          title: "Error",
+          text: "An error occurred while deleting the product.",
+          icon: "error",
+        });
+      }
+    }
+  });
+};
 
-     return;
-  }
-  }
-catch(error){
-  console.log("error occured :" + error.message)
-}
-return;
-}
-
-
-}
   
 
 

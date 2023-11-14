@@ -5,6 +5,7 @@ import { MyData } from "../Main-Component/MyData";
 import { useNavigate } from "react-router-dom";
 import { useRef } from "react";
 import axiosInstance from "./Axios/axiosInstance"
+import {toast} from "react-hot-toast";
 export default function ProductAddPage() {
   const { item, setItem } = useContext(MyData);
   const navigate = useNavigate();
@@ -14,12 +15,11 @@ export default function ProductAddPage() {
 
 
 
-
   const addproduct = async (e) => {
     e.preventDefault();
   
     const image = fileInputRef.current.files[0];
-
+  
     const imgurl = e.target.imgurl.value.trim();
     const form = document.getElementById("productForm");
     const title = e.target.Pname.value.trim();
@@ -28,7 +28,7 @@ export default function ProductAddPage() {
     const description = e.target.pDescription.value;
   
     if (image && imgurl || !image && !imgurl) {
-      return alert("Please provide either a file or a URL,  NOT BOTH.");
+      return alert("Please provide either a file or a URL, NOT BOTH.");
     }
     if (category === "ptype") {
       return alert("Please select a valid category.");
@@ -42,35 +42,36 @@ export default function ProductAddPage() {
     }
   
     const formData = new FormData();
-
-    formData.append("image", image); // IMAGE IS THE NAME IN SINGLE.UPLOAD("image")
+  
+    formData.append("image", image);
     formData.append("title", title);
     formData.append("price", price);
     formData.append("description", description);
     formData.append("category", category);
-
-    // title, description, price, image, category
+  
     const payload = {
       title,
       description,
       price,
-      image: imgurl, // This part depends on whether 'image' or 'imgurl' should be used
+      image: imgurl,
       category,
     };
   
     try {
-      const response = image
-        ? await axiosInstance.post('/api/admin/products', formData)
-        : await axiosInstance.post('/api/admin/products', payload);
-  
-      if (response.status === 201) {
-        alert("Product added successfully");
-        form.reset();
-        e.target.Pcategory.value = "ptype";
-      }
+      await toast.promise(
+        axiosInstance.post('/api/admin/products', image ? formData : payload),
+        {
+          loading: 'Adding product...',
+          success: () => {
+            form.reset();
+            e.target.Pcategory.value = 'ptype';
+            return 'Product added successfully';
+          },
+          error: (error) => `Product Error: ${error.response.data.message}`,
+        }
+      );
     } catch (error) {
       console.log(error);
-      alert("Product Error: " + error.response.data.message);
     }
   };
   

@@ -33,21 +33,21 @@ export default function AdminRevenue(){
               <div className="content-box">
                 <h6>Total Revenue</h6>
                 <h2>{stat[0].revenue}</h2>
-                <p className="text-success">
+                {/* <p className="text-success">
                   <MDBIcon fas icon="user-alt" className="me-2" />
                   {Math.round(Math.random() * 100) / 10}%
                   <span className="text-muted"> Last Month</span>
-                </p>
+                </p> */}
               </div>
     
               <div className="content-box">
                 <h6>Total Product Purchased</h6>
                 <h2>{stat[0].totalProductPurchased}</h2>
-                <p className="text-success">
+                {/* <p className="text-success">
                   <MDBIcon fas icon="user-alt" className="me-2" />
                   {Math.round(Math.random() * 100) / 10}%
                   <span className="text-muted"> Last Month</span>
-                </p>
+                </p> */}
               </div>
             </div>
           ) : (

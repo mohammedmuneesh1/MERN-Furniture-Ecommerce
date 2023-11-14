@@ -93,34 +93,24 @@ export default function AdminBody() {
         <div className="content-box">
           <h6>Total Users</h6>
           <h2>{data.users}</h2>
-          <p className="text-success">
-            <MDBIcon fas icon="user-alt" className="me-2" />
-            {Math.round(Math.random() * 100) / 10}%
-            <span className="text-muted"> Last Month</span>
-          </p>
         </div>
 
         <div className="content-box">
           <h6>Total Orders Received</h6>
           <h2>{data.orders}</h2>
-          <p className="text-success">
-            <span class="material-symbols-outlined">order_approve</span>
-            {Math.round(Math.random() * 100) / 10}%{" "}
-            <span className="text-muted"> Last Month</span>
-          </p>
         </div>
 
         <div className="content-box">
           <h6>revenue</h6>
           <h2>{data.revenue}</h2>
-          <p className="text-success">
-            <MDBIcon fas icon="dollar-sign" />
-            {Math.round(Math.random() * 100) / 10}%{" "}
-            <span className="text-muted"> Last Month</span>
-          </p>
         </div>
 
         <div className="content-box">
+          <h6>Total Product Sold</h6>
+          <h2>{data.productSold}</h2>
+        </div>
+
+        {/* <div className="content-box">
           <h6>Total Product Sold</h6>
           <h2>{data.productSold}</h2>
           <p className="text-success">
@@ -129,7 +119,7 @@ export default function AdminBody() {
             {Math.round(Math.random() * 100) / 10}%{" "}
             <span className="text-muted"> Last Month</span>
           </p>
-        </div>
+        </div> */}
       </div>
       <div className="d-flex flex-wrap justify-content-between align-items-center">
         <div

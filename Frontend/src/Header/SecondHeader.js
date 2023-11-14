@@ -207,6 +207,9 @@ const SecondHeader = () => {
                       My Profile{" "}
                     </li>
                     <hr />
+                    <li>Orders</li>
+                    <hr />
+
                     <li
                       onClick={() => {
                         lstatus
