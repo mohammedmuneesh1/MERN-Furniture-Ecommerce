@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { MDBBtn, MDBTable, MDBTableHead, MDBTableBody } from "mdb-react-ui-kit";
 import { MyData } from "../Main-Component/MyData";
 import { useNavigate } from "react-router-dom";
+import toast from 'react-hot-toast'
 import axios from 'axios'
 
 import { useEffect } from "react";
@@ -43,12 +44,13 @@ useEffect(()=>{
 
 const deleteProduct = async(id)=>{
   const confirmDeletion = window.confirm( "Are you sure you want to delete the product?" );
+  
  if(confirmDeletion){
   try{
    const response = await axiosInstance.delete(`/api/admin/products/${id}`)
   if(response.status === 200)
   {
-    alert("Product deleted successfully.")
+    toast.success("Product deleted successfully.")
     fetchData()
 
      return;

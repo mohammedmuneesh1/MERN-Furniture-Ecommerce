@@ -45,6 +45,7 @@ const imgUpload = (req,res,next)=>{
 
         }
     }
+    
     else{
         next();
     }

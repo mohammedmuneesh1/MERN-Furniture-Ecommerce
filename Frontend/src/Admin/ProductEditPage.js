@@ -60,7 +60,7 @@ export default function ProductEditPage() {
     if (imgurl) {
       payload.image = imgurl;
     }
-    console.log(formData)
+    // console.log(formData)
 
     try{
        const response = image ? await axiosInstance.put('/api/admin/products',formData) :  await axiosInstance.put('/api/admin/products',payload)  
