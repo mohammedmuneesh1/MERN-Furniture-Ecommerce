@@ -17,11 +17,10 @@ export default function Wishlist() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    
     window.scrollTo(0, 0);
-
   }, []);
 
+  
   return (
     <>
       <h2 className="text-center">Wish List</h2>

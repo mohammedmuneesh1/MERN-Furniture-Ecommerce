@@ -173,6 +173,7 @@ module.exports = {
     const id = req.params.id;
     const itemId = req.params.itemId;
     const {operation} = req.body;
+
    const user = await userDB.findOne({ _id: id, });
 
 if(user){
@@ -420,8 +421,10 @@ else{
     });
   },
 
+
   showOrders: async (req, res) => {
     //code need changes
+    console.log('working')
     const id = req.params.id;
     const user = await userDB.findById(id).populate("orders");
     if (!user) {
@@ -446,4 +449,9 @@ else{
       orderProductDetails,
     });
   },
+
+
+
+
+
 };

@@ -197,3 +197,44 @@
   background: rgb(8, 183, 8);
   margin-bottom: 5rem;
 }
+
+/*userOrderPage.js begin*/
+
+.orders{
+  width:95%;
+  border-radius:5px;
+  height:100vh;
+  margin:5px auto;
+  background:#FCF5ED;
+  padding-top:10px;
+}
+.order-container{
+  max-width:95%;
+  background:#B0A695;
+  max-height:20rem;
+  margin:10px auto;
+  
+}
+.order-details{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
+/* .order-details p{
+  text-align: left;
+} */
+
+.order-details-title{
+  max-width:30rem;
+  background:red;
+  justify-content: left;
+}
+.order-details img {
+  width:50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+/*userOrderPage.js End*/

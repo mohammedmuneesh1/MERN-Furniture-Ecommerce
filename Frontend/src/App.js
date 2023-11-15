@@ -40,6 +40,7 @@ import ProductAddPage from "./Admin/ProductAddPage";
 import OrderDetails from "./Admin/OrderDetails";
 import axiosInstance from "./Admin/Axios/axiosInstance";
 import PaymentResult from "./Body/paymentResult";
+import OrderPage from "./Body/userOrderPage";
 function App() {
 
   
@@ -172,7 +173,7 @@ useEffect(() => {
   if (!location.pathname.startsWith("/Admin")) {
     wishlistFn();
   }
-},);
+},[]);
 
 
   return (
@@ -220,6 +221,7 @@ useEffect(() => {
   <Route path="/Product/:id" element={<ProductPage />} />
   <Route path="/Wishlist" element={<Wishlist />} />
   <Route path="/order/payment" element ={<PaymentResult/>} />
+  <Route path="/orders" element = {<OrderPage/>} />
   
 
 

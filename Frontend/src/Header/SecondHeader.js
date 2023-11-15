@@ -207,7 +207,7 @@ const SecondHeader = () => {
                       My Profile{" "}
                     </li>
                     <hr />
-                    <li>Orders</li>
+                    <li onClick={()=>navigate('/orders')}>Orders</li>
                     <hr />
 
                     <li
