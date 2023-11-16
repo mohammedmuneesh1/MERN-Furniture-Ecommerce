@@ -17,7 +17,6 @@ const SecondHeader = () => {
   
   const navigate = useNavigate();
   const {
-    user,
     lstatus,
     setLstatus,
     setLogname,
@@ -270,7 +269,7 @@ const SecondHeader = () => {
                   pill
                   style={{ fontSize: "10px", padding: "4px 5px" }}
                 >
-                  {lstatus ? "" : cart.length}
+                  {token ? "" : ""}
                 </MDBBadge>
               </span>
               <label
@@ -283,6 +282,7 @@ const SecondHeader = () => {
             </div>
           </div>
         </div>
+
 
         <div className="sell">
           <ul style={{ marginBottom: "0px" }}>

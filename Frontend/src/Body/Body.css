@@ -205,11 +205,11 @@
   border-radius:5px;
   min-height:100vh;
   margin:5px auto;
-  /* background:#FCF5ED; */
+
   padding-top:10px;
 }
 .order-container{
-  /* max-width:95%; */
+ 
   min-height:5rem;
   background:whitesmoke;
   margin:10px auto;
@@ -222,9 +222,7 @@
   justify-content: space-between;
   align-items: center;
 }
-/* .order-details p{
-  text-align: left;
-} */
+
 
 .order-details-title{
   width:31rem;
@@ -244,14 +242,6 @@
    font-weight: bold;
    padding:0px 5px;
 }
-/* 
-.order-details-image{
-  display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-} */
-/*userOrderPage.js End*/
 
 .no-order{
   display: flex;
@@ -260,45 +250,28 @@
   justify-content: center;
   font-size:2.5rem;
   align-items: center;
-  /* font-weight: bold;
-  margin:5rem 0rem;
-  text-align: center; */
 }
 
-.material-symbols-outlined {
+/* .material-symbols-outlined {
   font-variation-settings:
   'FILL' 0,
   'wght' 400,
   'GRAD' 0,
   'opsz' 24;
+} */
+.no-Order-emoji{
   font-size: 2.5rem;
+
 }
-
-
-
-
-
 
 
 @media all and (max-width: 800px){
   .no-order{
     font-size:1rem;
   }
-  .material-symbols-outlined {
-    font-size:1rem;
-  }
+  .no-Order-emoji{
+    font-size: 2.5rem;
   
-
-}
-
-
-@media all and (max-width: 600px){
-  .no-order{
-
-    font-size:1rem;
   }
-  
-
 }
-
-/*style={{fontWeight:"bold",fontSize:"3rem",textAlign:"center"}}*/
+/*userOrderPage.js End*/

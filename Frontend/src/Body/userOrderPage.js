@@ -46,7 +46,7 @@ export default function OrderPage() {
       ) : (
         <div className="no-order">
           <span>No orders yet</span>&nbsp;
-          <span class="material-symbols-outlined">mood_bad</span>
+          <span className="material-symbols-outlined no-Order-emoji">mood_bad</span>
         </div>
       )}
     </div>
