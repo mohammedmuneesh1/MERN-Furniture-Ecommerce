@@ -20,10 +20,9 @@ export default function OrderPage() {
   useEffect(() => {
     fetchData();
   }, []);
-  console.log(order);
   return (
     <div className="orders">
-      {order ? (
+      {order.length > 0 ? (
         order.map((value) => (
           <>
             {value.products.map((pvalue) => (
@@ -31,25 +30,25 @@ export default function OrderPage() {
                 <div className="order-details">
                   <img src={pvalue.image} alt="order-image" />
                   <div className="order-details-title">
-                  <p>{pvalue.title}</p>
+                    <p>{pvalue.title}</p>
                   </div>
                   <div className="order-info">
                     <span>{value.time}</span>
                     <br />
                     <span>{value.date}</span>
                   </div>
-                  <h6>Shipment Status</h6>
+                  <span className="order-details-status">{value.shipment}</span>
                 </div>
               </div>
             ))}
           </>
         ))
       ) : (
-        <p style={{ color: "white" }}>No orders yet</p>
+        <div className="no-order">
+          <span>No orders yet</span>&nbsp;
+          <span class="material-symbols-outlined">mood_bad</span>
+        </div>
       )}
     </div>
   );
 }
-
-
-
